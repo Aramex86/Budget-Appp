@@ -1,0 +1,38 @@
+/*Input*/
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: #74d2a8 !important;
+  outline: #74d2a8 !important;
+}
+
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  border-color: #74d2a8 !important;
+  outline: #74d2a8 !important;
+  box-shadow: 0 0 0 2px rgba(119, 255, 219, 0.437) !important;
+}
+.ant-input:focus,
+.ant-input-focused {
+  box-shadow: 0 0 0 2px rgba(119, 255, 219, 0.437) !important;
+}
+
+/*Switch*/
+
+.ant-switch .ant-switch-inner {
+  color: #74d2a8;
+}
+
+.ant-switch .ant-switch-handle {
+  width: 10px;
+  top: 6px;
+  left: 8px;
+  height: 10px;
+  border-radius: 100%;
+}
+.ant-switch .ant-switch-handle::before {
+  background-color: #74d2a8;
+}
+
+.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 14px - 2px);
+}
