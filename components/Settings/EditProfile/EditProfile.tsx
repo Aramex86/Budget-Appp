@@ -2,11 +2,11 @@ import { CheckOutlined, EditOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
-import { Colors } from "../../helpers/enums/colors";
-import { Divider } from "../Divider/Divider";
-import { AntInput } from "../Input/Input";
-import { TabsHeading } from "../TabsHeading/TabsHeading";
-import { Box, Button } from "../../components";
+import { Colors } from "../../../helpers/enums/colors";
+import { Divider } from "../../Divider/Divider";
+import { AntInput } from "../../Input/Input";
+import { TabsHeading } from "../../TabsHeading/TabsHeading";
+import { Box, Button } from "../..";
 
 interface IUser {
   firstName?: string;

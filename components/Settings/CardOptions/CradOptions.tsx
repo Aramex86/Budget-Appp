@@ -1,9 +1,9 @@
 import { Divider, Radio, RadioChangeEvent, Space, Table } from "antd";
-import { Colors } from "../../helpers/enums/colors";
-import { RadioBtn } from "../RadioBtn/RadioBtn";
+import { Colors } from "../../../helpers/enums/colors";
+import { RadioBtn } from "../../RadioBtn/RadioBtn";
 import Image from "next/image";
-import { TabsHeading } from "../TabsHeading/TabsHeading";
-import { Box } from "../Box/Box";
+import { TabsHeading } from "../../TabsHeading/TabsHeading";
+import { Box } from "../../Box/Box";
 
 const cards = [
   {
