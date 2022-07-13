@@ -23,7 +23,7 @@ export interface BoxType {
     | "flex-start"
     | "flex-end";
   textAlign?: "initial" | "center" | "left" | "right";
-  alignItems?: "normal" | "center" | "start" | "end";
+  alignItems?: "normal" | "center" | "start" | "end" | "baseline";
   flexDirection?: "row" | "column";
   border?: string;
   borderTop?: string;
@@ -47,7 +47,7 @@ export interface BoxType {
   right?: string | number;
   left?: string | number;
   cursor?: "pointer" | string;
-  borderRadius?: string;
+  borderRadius?: string | number;
   boxShadow?: string;
   overfolwX?: "hidden" | "scroll";
   overfolwY?: "hidden" | "scroll";

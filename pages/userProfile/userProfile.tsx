@@ -1,16 +1,15 @@
 import Head from "next/head";
-import Box from "../../components/Box/Box";
-import Button from "../../components/Buttons/Button";
 import { Colors } from "../../helpers/enums/colors";
 import { connectToDatabase } from "../../lib/mongoDb";
 import Image from "next/image";
-import { Avatar } from "../../components/Avatar/Avatar";
 import { UploadOutlined } from "@ant-design/icons";
-import { Upload } from "antd";
-import Link from "next/link";
+import { Spin, Upload } from "antd";
+import { Button, Box, AntAvatar } from "../../components";
 
 export default function UserProfile({ movies }: any) {
   console.log(movies);
+
+  if (!movies) return <Spin />;
   return (
     <>
       <Head>
@@ -185,7 +184,7 @@ export default function UserProfile({ movies }: any) {
               position="relative"
               borderRadius="5px  5px 5px 5px"
             >
-              <Avatar
+              <AntAvatar
                 position="absolute"
                 top={-50}
                 left="50%"
@@ -266,7 +265,6 @@ export default function UserProfile({ movies }: any) {
                       backgroundColor={Colors.VistaBlue}
                       border={`1px solid ${Colors.VistaBlue}`}
                     >
-                      {" "}
                       Change Avatar
                     </Button>
                   </Upload>

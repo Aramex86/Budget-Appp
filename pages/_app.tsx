@@ -1,23 +1,19 @@
 import type { AppProps } from "next/app";
 import "../globalCss/global.css";
 import "antd/dist/antd.css";
-import Layout from "../components/Layout/Layout";
-import Sider from "../components/Sider/Sider";
 import { Colors } from "../helpers/enums/colors";
-import Header from "../components/Header/Header";
-import SiderNavigation from "../components/SiderNavigation/SiderNavigation";
-import Box from "../components/Box/Box";
 import { BellOutlined, SearchOutlined } from "@ant-design/icons";
-import { Avatar } from "../components/Avatar/Avatar";
 import Image from "next/image";
-import { Badge, Input } from "antd";
+import { Badge } from "antd";
 import { AntInput } from "../components/Input/Input";
-
-// const theme = {
-//   colors: {
-//     primary: "#0070f3",
-//   },
-// };
+import {
+  Box,
+  AntAvatar,
+  SiderNavigation,
+  Header,
+  Sider,
+  Layout,
+} from "../components";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -68,7 +64,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </Badge>
               </Box>
               <Box>
-                <Avatar
+                <AntAvatar
                   src={
                     <Image src="/images/testPic.jpg" width={100} height={100} />
                   }
@@ -81,7 +77,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </Layout>
     </Layout>
-    // </ThemeProvider>
   );
 }
 

@@ -5,6 +5,6 @@ interface ILayout {
   children: ReactNode;
 }
 
-export default function Layout({ children, ...rest }: ILayout) {
+export function Layout({ children, ...rest }: ILayout) {
   return <StyledLayout style={{ ...rest }}>{children}</StyledLayout>;
 }

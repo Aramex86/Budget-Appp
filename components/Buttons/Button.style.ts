@@ -13,6 +13,23 @@ export interface IButtonType extends ButtonProps {
   backgroundColor?: string;
   fontWeight?: number;
   hovercolor?: any;
+  position?: "inherit" | "absolute" | "relative" | "static";
+  top?: string | number;
+  bottom?: string | number;
+  right?: string | number;
+  left?: string | number;
+  transform?: string;
+  display?: "block" | "flex";
+  justifyContent?:
+    | "initial"
+    | "space-between"
+    | "center"
+    | "space-around"
+    | "space-evenly"
+    | "flex-start"
+    | "flex-end";
+  textAlign?: "initial" | "center" | "left" | "right";
+  alignItems?: "normal" | "center" | "start" | "end" | "baseline";
 }
 
 // const ButtonIcon = styled(Button)(

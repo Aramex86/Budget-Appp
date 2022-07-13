@@ -5,6 +5,6 @@ interface ISider extends SiderType {
   children: ReactNode;
 }
 
-export default function Sider({ children, ...rest }: ISider) {
+export function Sider({ children, ...rest }: ISider) {
   return <CustomSider style={{ ...rest }}>{children}</CustomSider>;
 }
