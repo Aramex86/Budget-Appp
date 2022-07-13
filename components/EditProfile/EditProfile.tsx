@@ -3,11 +3,10 @@ import { Form } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import { useEffect, useState } from "react";
 import { Colors } from "../../helpers/enums/colors";
-import Box from "../Box/Box";
-import Button from "../Buttons/Button";
 import { Divider } from "../Divider/Divider";
 import { AntInput } from "../Input/Input";
 import { TabsHeading } from "../TabsHeading/TabsHeading";
+import { Box, Button } from "../../components";
 
 interface IUser {
   firstName?: string;

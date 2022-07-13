@@ -6,13 +6,7 @@ interface IButton extends IButtonType {
   icon?: ReactNode;
   onClick?: () => void;
 }
-export default function Button({
-  children,
-  icon,
-  onClick,
-  type,
-  ...rest
-}: IButton) {
+export function Button({ children, icon, onClick, type, ...rest }: IButton) {
   return (
     <StyledButton icon={icon} style={rest} onClick={onClick} type={type}>
       {children ? children : ""}

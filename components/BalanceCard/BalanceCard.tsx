@@ -1,5 +1,5 @@
 import { Colors } from "../../helpers/enums/colors";
-import Box from "../Box/Box";
+import { Box } from "../Box/Box";
 
 export function BalanceCard() {
   return (

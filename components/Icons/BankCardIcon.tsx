@@ -8,6 +8,6 @@ const svgBankCard = () => (
   </svg>
 );
 
-const BankIcon = (props: any) => <Icon component={svgBankCard} {...props} />;
-
-export default BankIcon;
+export const BankIcon = (props: any) => (
+  <Icon component={svgBankCard} {...props} />
+);

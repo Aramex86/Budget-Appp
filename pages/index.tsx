@@ -3,7 +3,7 @@ import Head from "next/head";
 // import Link from "next/link";
 import { BalanceCard } from "../components/BalanceCard/BalanceCard";
 import BankCard from "../components/BankCard/BankCard";
-import Box from "../components/Box/Box";
+import { Box } from "../components/Box/Box";
 import LineChart from "../components/Chart/Chart";
 import RecentActivity from "../components/RecentActivity/RecentActivity";
 

@@ -1,8 +1,6 @@
 import { Colors } from "../../helpers/enums/colors";
-import { Avatar } from "../Avatar/Avatar";
-import Box from "../Box/Box";
-import Button from "../Buttons/Button";
 import TransactionButton from "../Buttons/TransactionButton";
+import { Box, Button, AntAvatar } from "../../components";
 
 const mockData = [
   {
@@ -58,7 +56,7 @@ export default function RecentActivity() {
             alignItems="center"
           >
             <Box width="10%">
-              <Avatar
+              <AntAvatar
                 background={
                   category === "income"
                     ? `${Colors.VistaBlue}`

@@ -10,11 +10,10 @@ import {
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
-import Box from "../Box/Box";
 import { Colors } from "../../helpers/enums/colors";
-import Button from "../Buttons/Button";
 import { Space } from "antd";
 import { useState } from "react";
+import { Box, Button } from "../../components";
 
 ChartJS.register(
   CategoryScale,

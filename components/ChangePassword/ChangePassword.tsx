@@ -1,13 +1,15 @@
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Form } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import {
+  Box,
+  TabsHeading,
+  AntInput,
+  Divider,
+  Switch,
+  Button,
+} from "../../components";
 import { Colors } from "../../helpers/enums/colors";
-import Box from "../Box/Box";
-import Button from "../Buttons/Button";
-import { Divider } from "../Divider/Divider";
-import { AntInput } from "../Input/Input";
-import { Switch } from "../Switch/Switch";
-import { TabsHeading } from "../TabsHeading/TabsHeading";
 
 export function ChangePassword() {
   const [form] = useForm();

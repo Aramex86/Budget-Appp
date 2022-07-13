@@ -1,6 +1,7 @@
 import Head from "next/head";
 import {
   AntTabs,
+  Box,
   ChangePassword,
   CradOptions,
   EditProfile,
@@ -8,7 +9,7 @@ import {
 } from "../../components";
 
 import { StyledTabPane } from "../../components/AntTabs/AntTabs.style";
-import Box from "../../components/Box/Box";
+
 import { Colors } from "../../helpers/enums/colors";
 
 export default function settings() {

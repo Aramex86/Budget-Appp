@@ -1,4 +1,3 @@
-import Box from "../Box/Box";
 import {
   CreditCardOutlined,
   HomeOutlined,
@@ -7,8 +6,9 @@ import {
 } from "@ant-design/icons";
 import { StyledMenu } from "./SiderNavigation.style";
 import { CustomLink } from "../StyledLink/StyledLink";
+import { Box } from "../Box/Box";
 
-export default function SiderNavigation() {
+export function SiderNavigation() {
   const handleClick = (e: any) => {
     console.log("click ", e);
   };

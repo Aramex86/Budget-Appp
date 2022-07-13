@@ -5,6 +5,6 @@ interface IBox extends BoxType {
   children?: ReactNode;
 }
 
-export default function Box({ children, ...rest }: IBox) {
+export function Box({ children, ...rest }: IBox) {
   return <StyledBox style={rest}>{children ? children : ""}</StyledBox>;
 }

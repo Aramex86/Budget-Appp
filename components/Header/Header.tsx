@@ -5,6 +5,6 @@ interface IHeader extends HeaderType {
   children: ReactNode;
 }
 
-export default function Header({ children, ...rest }: IHeader) {
+export function Header({ children, ...rest }: IHeader) {
   return <StyledHeader style={rest}>{children}</StyledHeader>;
 }
