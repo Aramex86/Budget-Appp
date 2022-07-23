@@ -30,6 +30,7 @@ export interface IButtonType extends ButtonProps {
     | "flex-end";
   textAlign?: "initial" | "center" | "left" | "right";
   alignItems?: "normal" | "center" | "start" | "end" | "baseline";
+  padding?: number | string;
 }
 
 // const ButtonIcon = styled(Button)(

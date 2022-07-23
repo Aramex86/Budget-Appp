@@ -1,6 +1,6 @@
-import { Colors } from "../../helpers/enums/colors";
-import TransactionButton from "../Buttons/TransactionButton";
-import { Box, Button, AntAvatar } from "../../components";
+import { Colors } from "../../../helpers/enums/colors";
+import TransactionButton from "../../Buttons/TransactionButton";
+import { Box, Button, AntAvatar } from "../..";
 
 const mockData = [
   {
