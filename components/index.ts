@@ -21,3 +21,4 @@ export * from "./RadioBtn/RadioBtn";
 export * from "./StyledLink/StyledLink";
 export * from "./Switch/Switch";
 export * from "./Payments";
+export * from "./Modal/Modal";

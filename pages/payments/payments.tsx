@@ -7,7 +7,7 @@ export default function Payments() {
   return (
     <>
       <Head>
-        <title>Payments </title>
+        <title>Payments</title>
       </Head>
       <Box display="flex" paddingTop={50}>
         <Box

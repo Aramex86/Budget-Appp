@@ -6,7 +6,7 @@ interface InputProps extends IInput {
   suffix?: ReactNode;
   placeholder?: string;
   bordered?: boolean;
-  onChange?: () => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function AntInput({
@@ -16,6 +16,8 @@ export function AntInput({
   prefix,
   size,
   onChange,
+  type,
+  value,
   ...rest
 }: InputProps) {
   return (
@@ -23,10 +25,12 @@ export function AntInput({
       size={size}
       style={rest}
       suffix={suffix}
+      value={value}
       prefix={prefix}
       placeholder={placeholder}
       bordered={bordered}
       onChange={onChange}
+      type={type}
     />
   );
 }

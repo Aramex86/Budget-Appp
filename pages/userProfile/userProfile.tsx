@@ -16,7 +16,7 @@ export default function UserProfile({ movies }: any) {
         <title>User Profile</title>
       </Head>
 
-      <Box position="relative" height="100vh">
+      <Box position="relative">
         <Box
           position="absolute"
           background={`rgb(151 151 179 / 58%)`}

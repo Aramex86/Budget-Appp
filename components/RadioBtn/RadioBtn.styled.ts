@@ -26,6 +26,10 @@ export const StyledRadioBtn = styled(Radio.Button)(
     "&.ant-radio-button-wrapper:hover": {
       color: Colors.Black,
     },
+    "&.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before":
+      {
+        backgroundColor: "transparent",
+      },
 
     ...style,
   })
