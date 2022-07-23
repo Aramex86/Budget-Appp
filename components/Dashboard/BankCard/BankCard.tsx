@@ -1,7 +1,7 @@
 import { PlusOutlined, WifiOutlined } from "@ant-design/icons";
-import { Colors } from "../../helpers/enums/colors";
+import { Colors } from "../../../helpers/enums/colors";
 import Image from "next/image";
-import { Box, Button } from "../../components";
+import { Box, Button } from "../..";
 
 interface ICards {
   id: number;

@@ -10,10 +10,10 @@ import {
 } from "chart.js";
 
 import { Line } from "react-chartjs-2";
-import { Colors } from "../../helpers/enums/colors";
+import { Colors } from "../../../helpers/enums/colors";
 import { Space } from "antd";
 import { useState } from "react";
-import { Box, Button } from "../../components";
+import { Box, Button } from "../..";
 
 ChartJS.register(
   CategoryScale,
@@ -79,7 +79,7 @@ export const options = {
       display: false,
     },
   },
-};
+} as const;
 
 const labels = [
   "January",

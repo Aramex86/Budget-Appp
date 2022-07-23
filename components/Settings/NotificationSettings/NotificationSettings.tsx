@@ -1,6 +1,6 @@
 import { Divider } from "antd";
-import { Colors } from "../../helpers/enums/colors";
-import { Box, TabsHeading, Switch } from "../../components";
+import { Colors } from "../../../helpers/enums/colors";
+import { Box, TabsHeading, Switch } from "../..";
 
 export function NotificationSettings() {
   return (
