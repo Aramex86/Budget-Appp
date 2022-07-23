@@ -10,7 +10,12 @@ import { PartyIcon, MedicineIcon } from "../../Icons";
 
 export function Categories() {
   return (
-    <Box display="flex" alignItems="center" justifyContent="center" width="25%">
+    <Box
+      display="flex"
+      alignItems="baseline"
+      justifyContent="center"
+      width="25%"
+    >
       <Box
         background={Colors.White}
         padding="35px 25px"

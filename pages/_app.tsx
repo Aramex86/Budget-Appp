@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     // <ThemeProvider theme={theme}>
     <Layout>
-      <Sider background={Colors.White} height="100vh">
+      <Sider background={Colors.White}>
         <Box
           paddingTop={31}
           textAlign="center"

@@ -6,7 +6,6 @@ export interface LayoutType {
 }
 
 const StyledLayout = styled(Layout)(({ style }: { style: LayoutType }) => ({
-  height: "100vh",
   ...style,
 }));
 
