@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export interface SiderType {
   width?: string | number;
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
   background?: string;
   height?: number | string;
 }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export interface BoxType {
-  style?: any;
+  style?: Record<string, string | number>;
   paddingTop?: string | number;
   paddingBottom?: string | number;
   paddingRight?: string | number;

@@ -2,7 +2,7 @@ import { Header } from "antd/lib/layout/layout";
 import styled from "styled-components";
 
 export interface HeaderType {
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
   width?: string | number;
   p?: string | number;
   pt?: string | number;

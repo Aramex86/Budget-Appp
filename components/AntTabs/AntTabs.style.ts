@@ -3,7 +3,7 @@ import { Tabs } from "antd";
 import styled from "styled-components";
 
 export interface StyleTabs {
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
   color?: string;
   background?: string;
   width?: string | number;

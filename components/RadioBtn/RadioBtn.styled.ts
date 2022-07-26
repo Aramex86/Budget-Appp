@@ -1,9 +1,10 @@
 import { Colors } from "./../../helpers/enums/colors";
 import { Radio, RadioProps } from "antd";
 import styled from "styled-components";
+import { CSSProperties } from "react";
 
 export interface IRadionBtnProps extends RadioProps {
-  style?: Record<string, any>;
+  style?: CSSProperties;
   background?: string;
 }
 

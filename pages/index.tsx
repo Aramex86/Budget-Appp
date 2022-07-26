@@ -6,17 +6,7 @@ import BankCard from "../components/Dashboard/BankCard/BankCard";
 import { Box } from "../components/Box/Box";
 import LineChart from "../components/Dashboard/Chart/Chart";
 import RecentActivity from "../components/Dashboard/RecentActivity/RecentActivity";
-import { connectToDatabase } from "../lib/mongoDb";
-import { IUser } from "../models/userModel";
-
-interface UserProps {
-  users: IUser[];
-}
-
-const Home: NextPage<UserProps> = ({ users }: { users: IUser[] }) => {
-  const [{ cards }] = users;
-  console.log(cards);
-
+const Home: NextPage = () => {
   return (
     <>
       <Head>
@@ -27,7 +17,7 @@ const Home: NextPage<UserProps> = ({ users }: { users: IUser[] }) => {
       <Box padding={50}>
         <Box display="flex" justifyContent="space-between">
           <BalanceCard />
-          <BankCard cards={cards} />
+          <BankCard />
         </Box>
         <Box display="flex" justifyContent="space-between" marginTop={40}>
           <LineChart />
@@ -39,19 +29,3 @@ const Home: NextPage<UserProps> = ({ users }: { users: IUser[] }) => {
 };
 
 export default Home;
-
-export async function getServerSideProps() {
-  const { db } = await connectToDatabase();
-  console.log("DB", db);
-  const users = await db
-    .collection("users")
-    .find({})
-    .sort({ metacritic: -1 })
-    .limit(10)
-    .toArray();
-  return {
-    props: {
-      users: JSON.parse(JSON.stringify(users)),
-    },
-  };
-}

@@ -6,10 +6,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Spin, Upload } from "antd";
 import { Button, Box, AntAvatar } from "../../components";
 
-export default function UserProfile({ movies }: any) {
-  console.log(movies);
-
-  if (!movies) return <Spin />;
+export default function UserProfile() {
   return (
     <>
       <Head>
@@ -290,17 +287,17 @@ export default function UserProfile({ movies }: any) {
   );
 }
 
-export async function getServerSideProps() {
-  const { db } = await connectToDatabase();
-  const movies = await db
-    .collection("movies")
-    .find({})
-    .sort({ metacritic: -1 })
-    .limit(10)
-    .toArray();
-  return {
-    props: {
-      movies: JSON.parse(JSON.stringify(movies)),
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   const { db } = await connectToDatabase();
+//   const movies = await db
+//     .collection("movies")
+//     .find({})
+//     .sort({ metacritic: -1 })
+//     .limit(10)
+//     .toArray();
+//   return {
+//     props: {
+//       movies: JSON.parse(JSON.stringify(movies)),
+//     },
+//   };
+// }

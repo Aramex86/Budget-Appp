@@ -3,7 +3,6 @@ import { IModalProps, StyledModal } from "./Modal.style";
 
 interface IModal extends IModalProps {
   children: ReactNode;
-  //   style?: Record<string, any>;
   visible?: boolean;
   onOk?: () => void;
   onCancel?: () => void;

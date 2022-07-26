@@ -14,15 +14,18 @@ import {
   Row,
   Select,
 } from "antd";
+import { useFetchData } from "../../../helpers/hooks/useFetchData";
 
-export default function BankCard({ cards }: { cards: UserCards[] }) {
+export default function BankCard() {
+  const [data] = useFetchData("api/users", "GET", "cards");
+  const [response] = useFetchData("api/users", "POST", "cards");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = useState("visa");
   const [bg, setBg] = useState("#484ef4");
 
-  const [form] = useForm();
+  console.log(data);
 
-  console.log(cards.map((e) => e._id));
+  const [form] = useForm();
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -53,7 +56,6 @@ export default function BankCard({ cards }: { cards: UserCards[] }) {
     setBg(e.target.value);
   };
 
-  console.log(bg);
   return (
     <Box display="flex" justifyContent="flex-end">
       <Box>
@@ -156,70 +158,75 @@ export default function BankCard({ cards }: { cards: UserCards[] }) {
         </Box>
       </CustomModal>
       <Box display="flex">
-        {cards.map(({ _id, date, paySystem, amount, background }) => (
-          <Box
-            key={_id}
-            background={background}
-            width={230}
-            padding={20}
-            marginRight={20}
-            borderRadius="10px"
-          >
+        {data?.map(
+          ({ _id, date, paySystem, amount, background }: UserCards) => (
             <Box
-              display="flex"
-              justifyContent="space-between"
-              marginBottom={25}
+              key={_id}
+              background={background}
+              width={230}
+              padding={20}
+              marginRight={20}
+              borderRadius="10px"
             >
-              <WifiOutlined
-                style={{ color: `${Colors.White}`, transform: "rotate(90deg)" }}
-              />
-              <Box color={Colors.White}>{date}</Box>
-            </Box>
-            <Box>
-              {paySystem === "visa" ? (
-                <>
-                  <Box height={60}>
-                    <Image
-                      src={"/images/294654_visa_icon.png"}
-                      width={80}
-                      height={80}
-                      alt="Pay System"
-                    />
-                  </Box>
-                  <Box
-                    paddingLeft={10}
-                    color={Colors.White}
-                    fontSize={12}
-                  >{`${paySystem.toUpperCase()} Card`}</Box>
-                </>
-              ) : (
-                <>
-                  <Box height={60} paddingTop={10}>
-                    <Image
-                      src="/images/mc_symbol_opt_73_2x.png"
-                      width={60}
-                      height={45}
-                      alt="Pay System"
-                    />
-                  </Box>
-                  <Box
-                    paddingLeft={10}
-                    color={Colors.White}
-                    fontSize={12}
-                  >{`${paySystem.toUpperCase()}`}</Box>
-                </>
-              )}
-            </Box>
-            <Box>
               <Box
-                color={Colors.White}
-                paddingLeft={10}
-                fontSize={25}
-                fontWeight={700}
-              >{`$${amount}`}</Box>
+                display="flex"
+                justifyContent="space-between"
+                marginBottom={25}
+              >
+                <WifiOutlined
+                  style={{
+                    color: `${Colors.White}`,
+                    transform: "rotate(90deg)",
+                  }}
+                />
+                <Box color={Colors.White}>{date}</Box>
+              </Box>
+              <Box>
+                {paySystem === "visa" ? (
+                  <>
+                    <Box height={60}>
+                      <Image
+                        src={"/images/294654_visa_icon.png"}
+                        width={80}
+                        height={80}
+                        alt="Pay System"
+                      />
+                    </Box>
+                    <Box
+                      paddingLeft={10}
+                      color={Colors.White}
+                      fontSize={12}
+                    >{`${paySystem.toUpperCase()} Card`}</Box>
+                  </>
+                ) : (
+                  <>
+                    <Box height={60} paddingTop={10}>
+                      <Image
+                        src="/images/mc_symbol_opt_73_2x.png"
+                        width={60}
+                        height={45}
+                        alt="Pay System"
+                      />
+                    </Box>
+                    <Box
+                      paddingLeft={10}
+                      color={Colors.White}
+                      fontSize={12}
+                    >{`${paySystem.toUpperCase()}`}</Box>
+                  </>
+                )}
+              </Box>
+              <Box>
+                <Box
+                  color={Colors.White}
+                  paddingLeft={10}
+                  fontSize={25}
+                  fontWeight={700}
+                >{`$${amount}`}</Box>
+              </Box>
             </Box>
-          </Box>
-        ))}
+          )
+        )}
       </Box>
     </Box>
   );
