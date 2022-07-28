@@ -6,6 +6,7 @@ import BankCard from "../components/Dashboard/BankCard/BankCard";
 import { Box } from "../components/Box/Box";
 import LineChart from "../components/Dashboard/Chart/Chart";
 import RecentActivity from "../components/Dashboard/RecentActivity/RecentActivity";
+
 const Home: NextPage = () => {
   return (
     <>

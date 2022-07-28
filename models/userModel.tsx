@@ -1,12 +1,12 @@
 export interface UserCards {
-  paySystem: string;
+  paysystem: string;
   cardNumber: string;
   amount: string;
   currency: string;
   _id: string;
   date: string;
   cardHolder: string;
-  background: string;
+  cardBg: string;
 }
 
 export interface IUser {

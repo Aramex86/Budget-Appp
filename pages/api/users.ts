@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from "../../lib/mongoDb";
 import { IUser } from "../../models/userModel";
@@ -12,13 +13,11 @@ export default async function handler(
 ) {
   const { db } = await connectToDatabase();
 
-  const users = await db
-    .collection("users")
-    .find({})
-    .sort({ metacritic: -1 })
-    .limit(10)
-    .toArray();
-
-  console.log(users);
-  res.status(200).json(users);
+  try {
+    const users = await db.collection("users").find({}).toArray();
+    res.status(200).json(users);
+  } catch (e: any) {
+    console.log(e);
+    res.status(500).json({ message: e.message });
+  }
 }
