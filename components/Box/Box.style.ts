@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export interface BoxType {
-  style?: Record<string, string | number>;
+  style?: Record<string, string | number | any>;
   paddingTop?: string | number;
   paddingBottom?: string | number;
   paddingRight?: string | number;
@@ -30,8 +30,7 @@ export interface BoxType {
   borderBottom?: string;
   color?: string;
   fontWeight?: number;
-  overflow?: "auto";
-  flexWrap?: "wrap";
+  flexWrap?: "wrap" | "nowrap";
   maxHeight?: string;
   padding?: string | number;
   margin?: string | number;
@@ -49,8 +48,10 @@ export interface BoxType {
   cursor?: "pointer" | string;
   borderRadius?: string | number;
   boxShadow?: string;
-  overfolwX?: "hidden" | "scroll";
-  overfolwY?: "hidden" | "scroll";
+  overflowX?: "hidden" | "scroll" | "auto";
+  overflowY?: "hidden" | "scroll" | "auto";
+  overflow?: "hidden" | "auto";
+  whiteSpace?: "nowrap" | "normal";
   textTransform?: "capitalize" | "lowercase" | "uppercase";
   transform?: string;
   zIndex?: number;

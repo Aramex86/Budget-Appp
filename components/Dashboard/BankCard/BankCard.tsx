@@ -1,9 +1,9 @@
-import { PlusOutlined, WifiOutlined } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined, WifiOutlined } from "@ant-design/icons";
 import { Colors } from "../../../helpers/enums/colors";
 import Image from "next/image";
 import { AntInput, Box, Button, CustomModal, RadioBtn } from "../..";
 import { UserCards } from "../../../models/userModel";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Col,
   DatePicker,
@@ -12,27 +12,28 @@ import {
   Radio,
   Row,
   Select,
+  Spin,
 } from "antd";
 import moment from "moment";
 import { useGetCards, usePostCard } from "../../../hooks";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
 
 export default function BankCard() {
-  const { status, data, error, isFetching } = useGetCards();
-  // const { mutate } = usePostCard({ params: data });
-  const { isLoading, isError, mutate } = useMutation(createPost, {
-    retry: 3,
-  });
+  const { status, data = [], error, isFetching, refetch } = useGetCards();
+  const { mutate } = usePostCard();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [bg, setBg] = useState("#484ef4");
   const [date, setDate] = useState<string>("");
   const [form] = Form.useForm();
 
-  async function createPost() {
-    const response = await axios.post("api/postcard");
-    console.log(response);
-  }
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 24,
+        color: `${Colors.VistaBlue}`,
+      }}
+      spin
+    />
+  );
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -41,9 +42,7 @@ export default function BankCard() {
     setIsModalVisible(false);
     const cardObj = form.getFieldsValue(true);
     const card = { ...cardObj, date };
-
     mutate(card);
-    // refetch()
   };
 
   const handleCancel = () => {
@@ -58,9 +57,22 @@ export default function BankCard() {
     setDate(dateString);
   };
 
+  // console.log(data.length);
+
+  if (isFetching)
+    return (
+      <Box>
+        <Spin indicator={antIcon} />
+      </Box>
+    );
   return (
-    <Form form={form}>
-      <Box display="flex" justifyContent="flex-end">
+    <Form form={form} component={false}>
+      <Box
+        display="flex"
+        overflowX={data.lenght > 3 ? "scroll" : "auto"}
+        whiteSpace="nowrap"
+        width="70%"
+      >
         <Box>
           <Button
             icon={<PlusOutlined style={{ color: `${Colors.SilverSand}` }} />}

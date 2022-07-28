@@ -8,6 +8,8 @@ const fetchData = async () => {
   return cards;
 };
 
-export function useGetCards() {
+function useGetCards() {
   return useQuery(["cards"], fetchData);
 }
+
+export { fetchData, useGetCards };

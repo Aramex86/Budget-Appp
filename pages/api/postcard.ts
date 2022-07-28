@@ -13,8 +13,6 @@ export default async function handler(
 ) {
   const { db } = await connectToDatabase();
   try {
-    console.log(req.body);
-
     await db
       .collection("users")
       .updateOne(
@@ -22,7 +20,7 @@ export default async function handler(
         { $push: { cards: { ...req.body, _id: new ObjectId() } } }
       );
 
-    res.status(200).json(req.body);
+    res.status(200).json({ body: req.body, message: "Succes" });
   } catch (e) {
     res.status(500).json({ message: "Something goes wrong" });
   }

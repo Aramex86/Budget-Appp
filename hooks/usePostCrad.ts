@@ -1,15 +1,23 @@
 import { UserCards } from "./../models/userModel";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-const postCard = async (obj: any) => {
-  const { data } = await axios.post("api/postcard", obj);
+import { notification } from "antd";
+import { fetchData } from "./useGetCards";
 
+const postCard = async (card: any) => {
+  const { data } = await axios.post("/api/postcard", card);
   return data;
 };
 
-export function usePostCard(
-  { url, params = {} as UserCards }: { url?: string; params?: UserCards },
-  options?: any
-) {
-  return useMutation(["newCard"], postCard);
+export function usePostCard(card?: UserCards) {
+  const { refetch } = useQuery(["cards"], fetchData);
+  return useMutation(["newCard"], postCard, {
+    onSuccess: () => {
+      refetch();
+      notification.success({
+        message: "Card added with succes",
+        duration: 3,
+      });
+    },
+  });
 }
