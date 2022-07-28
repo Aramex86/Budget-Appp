@@ -12,7 +12,7 @@ export interface IButtonType extends ButtonProps {
   borderRadius?: string | number;
   backgroundColor?: string;
   fontWeight?: number;
-  hovercolor?: any;
+  hovercolor?: string;
   position?: "inherit" | "absolute" | "relative" | "static";
   top?: string | number;
   bottom?: string | number;

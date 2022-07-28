@@ -156,13 +156,13 @@ const colunms = [
     title: "Date",
     dataIndex: "date",
     key: "date",
-    render: (text: any) => <Box color={Colors.Black}>{text}</Box>,
+    render: (text: string) => <Box color={Colors.Black}>{text}</Box>,
   },
   {
     title: "Amount",
     dataIndex: "amount",
     key: "amount",
-    render: (text: any) => {
+    render: (text: string) => {
       // console.log();
       return (
         <Box
@@ -178,7 +178,7 @@ const colunms = [
     title: "Card",
     dataIndex: "card",
     key: "card",
-    render: (text: any) => <Box color={Colors.Black}>{text}</Box>,
+    render: (text: string) => <Box color={Colors.Black}>{text}</Box>,
   },
 ];
 

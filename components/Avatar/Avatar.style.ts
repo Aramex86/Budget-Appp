@@ -2,7 +2,7 @@ import { Avatar, AvatarProps } from "antd";
 import styled from "styled-components";
 
 export interface AvatarType extends AvatarProps {
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
   background?: string;
   position?: "inherit" | "absolute" | "relative" | "static";
   top?: string | number;

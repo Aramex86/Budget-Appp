@@ -11,7 +11,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Dashboard</title>
+        <title>users</title>
         <meta name="description" content="Budget App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

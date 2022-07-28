@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 import { Colors } from "../../helpers/enums/colors";
 
 interface LinkProps {
-  href?: any;
+  href?: string;
   title: string;
   className?: string;
   icon?: ReactNode;
@@ -20,7 +20,7 @@ export function CustomLink({ href, title, icon }: LinkProps) {
   const router = useRouter();
 
   return (
-    <Link href={href} passHref>
+    <Link href={href!} passHref>
       <a style={router.pathname === href ? actives : {}}>
         {icon} {title}
       </a>

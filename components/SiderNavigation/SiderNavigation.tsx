@@ -7,6 +7,7 @@ import {
 import { StyledMenu } from "./SiderNavigation.style";
 import { CustomLink } from "../StyledLink/StyledLink";
 import { Box } from "../Box/Box";
+import React from "react";
 
 export function SiderNavigation() {
   const handleClick = (e: any) => {

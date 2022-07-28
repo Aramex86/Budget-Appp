@@ -1,9 +1,10 @@
 import { Colors } from "./../../helpers/enums/colors";
 import { Radio, RadioProps } from "antd";
 import styled from "styled-components";
+import { CSSProperties } from "react";
 
 export interface IRadionBtnProps extends RadioProps {
-  style?: Record<string, any>;
+  style?: CSSProperties;
   background?: string;
 }
 
@@ -26,6 +27,10 @@ export const StyledRadioBtn = styled(Radio.Button)(
     "&.ant-radio-button-wrapper:hover": {
       color: Colors.Black,
     },
+    "&.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before":
+      {
+        backgroundColor: "transparent",
+      },
 
     ...style,
   })

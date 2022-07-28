@@ -1,123 +1,268 @@
-import { PlusOutlined, WifiOutlined } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined, WifiOutlined } from "@ant-design/icons";
 import { Colors } from "../../../helpers/enums/colors";
 import Image from "next/image";
-import { Box, Button } from "../..";
-
-interface ICards {
-  id: number;
-  date: string;
-  paySystem: string;
-  amount: string;
-}
-
-const cards = [
-  {
-    id: 1,
-    date: "12/24",
-    paySystem: "mastercard",
-    amount: "3,920",
-    backgound: "#4D53E0",
-    cardHolder: "Jhon Doe",
-  },
-  {
-    id: 2,
-    date: "09/24",
-    paySystem: "visa",
-    amount: "2,500",
-    backgound: "#FF8C00",
-    cardHolder: "Jhon Doe",
-  },
-  {
-    id: 3,
-    date: "08/24",
-    paySystem: "mastercard",
-    amount: "1,500",
-    backgound: "#202041",
-    cardHolder: "Jhon Doe",
-  },
-];
+import { AntInput, Box, Button, CustomModal, RadioBtn } from "../..";
+import { UserCards } from "../../../models/userModel";
+import { useState } from "react";
+import {
+  Col,
+  DatePicker,
+  DatePickerProps,
+  Form,
+  Radio,
+  Row,
+  Select,
+  Spin,
+} from "antd";
+import moment from "moment";
+import { useGetCards, usePostCard } from "../../../hooks";
 
 export default function BankCard() {
-  return (
-    <Box width="70%" display="flex" justifyContent="flex-end">
+  const { status, data = [], error, isFetching, refetch } = useGetCards();
+  const { mutate } = usePostCard();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [bg, setBg] = useState("#484ef4");
+  const [date, setDate] = useState<string>("");
+  const [form] = Form.useForm();
+
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 24,
+        color: `${Colors.VistaBlue}`,
+      }}
+      spin
+    />
+  );
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleOk = () => {
+    setIsModalVisible(false);
+    const cardObj = form.getFieldsValue(true);
+    const card = { ...cardObj, date };
+    mutate(card);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+    setDate(dateString);
+  };
+
+  // console.log(data.length);
+
+  if (isFetching)
+    return (
       <Box>
-        <Button
-          icon={<PlusOutlined style={{ color: `${Colors.SilverSand}` }} />}
-          border={`1px solid ${Colors.SilverSand}`}
-          color={Colors.SilverSand}
-          width={47}
-          height={47}
-          boxShadow={`0px 0px 4px 1px ${Colors.GhostWhite}`}
-          marginRight={20}
-          borderRadius={4}
-        />
+        <Spin indicator={antIcon} />
       </Box>
-      <Box display="flex">
-        {cards.map(({ id, backgound, date, paySystem, amount }) => (
-          <Box
-            key={id}
-            background={backgound}
-            width={230}
-            padding={20}
+    );
+  return (
+    <Form form={form} component={false}>
+      <Box
+        display="flex"
+        overflowX={data.lenght > 3 ? "scroll" : "auto"}
+        whiteSpace="nowrap"
+        width="70%"
+      >
+        <Box>
+          <Button
+            icon={<PlusOutlined style={{ color: `${Colors.SilverSand}` }} />}
+            border={`1px solid ${Colors.SilverSand}`}
+            color={Colors.SilverSand}
+            width={47}
+            height={47}
+            boxShadow={`0px 0px 4px 1px ${Colors.GhostWhite}`}
             marginRight={20}
-            borderRadius="10px"
-          >
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              marginBottom={25}
+            borderRadius={4}
+            onClick={showModal}
+          />
+        </Box>
+
+        <CustomModal
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          destroyOnClose
+          title="Add new card"
+          footer={[
+            <Button
+              key="cancel"
+              onClick={handleCancel}
+              color={Colors.VistaBlue}
+              border={`1px solid ${Colors.VistaBlue}`}
             >
-              <WifiOutlined
-                style={{ color: `${Colors.White}`, transform: "rotate(90deg)" }}
-              />
-              <Box color={Colors.White}>{date}</Box>
-            </Box>
-            <Box>
-              {paySystem === "visa" ? (
-                <>
-                  <Box height={60}>
-                    <Image
-                      src={"/images/294654_visa_icon.png"}
-                      width={80}
-                      height={80}
-                      alt="Pay System"
-                    />
-                  </Box>
-                  <Box
-                    paddingLeft={10}
-                    color={Colors.White}
-                    fontSize={12}
-                  >{`${paySystem.toUpperCase()} Card`}</Box>
-                </>
-              ) : (
-                <>
-                  <Box height={60} paddingTop={10}>
-                    <Image
-                      src="/images/mc_symbol_opt_73_2x.png"
-                      width={60}
-                      height={45}
-                      alt="Pay System"
-                    />
-                  </Box>
-                  <Box
-                    paddingLeft={10}
-                    color={Colors.White}
-                    fontSize={12}
-                  >{`${paySystem.toUpperCase()}`}</Box>
-                </>
-              )}
-            </Box>
-            <Box>
-              <Box
-                color={Colors.White}
-                paddingLeft={10}
-                fontSize={25}
-                fontWeight={700}
-              >{`$${amount}`}</Box>
+              Cancel
+            </Button>,
+            <Button
+              key="add"
+              onClick={handleOk}
+              backgroundColor={Colors.VistaBlue}
+              color={Colors.White}
+              border={`1px solid ${Colors.VistaBlue}`}
+            >
+              Add Crard
+            </Button>,
+          ]}
+        >
+          <Row gutter={[20, 30]}>
+            <Col span={8}>
+              Card Holder
+              <Form.Item name="cardholder" required>
+                <AntInput
+                  placeholder="Jhon Doe"
+                  borderColor={Colors.VistaBlue}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              Amount
+              <Form.Item name="amount">
+                <AntInput
+                  placeholder="ex:1000.00"
+                  borderColor={Colors.VistaBlue}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              Currency
+              <Form.Item name="currency" initialValue="$">
+                <Select
+                  // defaultValue="$"
+                  style={{ width: 100 }}
+                  bordered={false}
+                  onChange={handleChange}
+                >
+                  <Select.Option value="€">€</Select.Option>
+                  <Select.Option value="$">$</Select.Option>
+                  <Select.Option value="lei">Lei</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Box marginTop={20}>
+            <Row>
+              <Col span={8}>
+                Valid True
+                <Form.Item name="date">
+                  <DatePicker
+                    onChange={onChange}
+                    bordered={false}
+                    defaultValue={moment("01/2022", "MM/YYYY")}
+                    format={"MM/YYYY"}
+                    picker="month"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                Pay System
+                <Form.Item name="paysystem" initialValue="visa">
+                  <Radio.Group
+                    defaultValue="visa"
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      gap: "20px",
+                    }}
+                  >
+                    <RadioBtn value="visa">Visa</RadioBtn>
+                    <RadioBtn value="mastercard">Mastercard</RadioBtn>
+                  </Radio.Group>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Box marginTop={10}>
+              <Row>
+                <Col span={12}>
+                  Select background of card
+                  <Form.Item name="cardBg" initialValue={bg}>
+                    <AntInput type="color" bordered={false} width="50%" />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Box>
           </Box>
-        ))}
+        </CustomModal>
+        <Box display="flex">
+          {data?.map(
+            ({ _id, date, paysystem, amount, cardBg, currency }: UserCards) => (
+              <Box
+                key={_id}
+                background={cardBg}
+                width={230}
+                padding={20}
+                marginRight={20}
+                borderRadius="10px"
+              >
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  marginBottom={25}
+                >
+                  <WifiOutlined
+                    style={{
+                      color: `${Colors.White}`,
+                      transform: "rotate(90deg)",
+                    }}
+                  />
+                  <Box color={Colors.White}>{date ? date : "invalid card"}</Box>
+                </Box>
+                <Box>
+                  {paysystem === "visa" ? (
+                    <>
+                      <Box height={60}>
+                        <Image
+                          src={"/images/294654_visa_icon.png"}
+                          width={80}
+                          height={80}
+                          alt="Pay System"
+                        />
+                      </Box>
+                      <Box
+                        paddingLeft={10}
+                        color={Colors.White}
+                        fontSize={12}
+                      >{`${paysystem.toUpperCase()} `}</Box>
+                    </>
+                  ) : (
+                    <>
+                      <Box height={60} paddingTop={10}>
+                        <Image
+                          src="/images/mc_symbol_opt_73_2x.png"
+                          width={60}
+                          height={45}
+                          alt="Pay System"
+                        />
+                      </Box>
+                      <Box
+                        paddingLeft={10}
+                        color={Colors.White}
+                        fontSize={12}
+                      >{`${paysystem?.toUpperCase()}`}</Box>
+                    </>
+                  )}
+                </Box>
+                <Box>
+                  <Box
+                    color={Colors.White}
+                    paddingLeft={10}
+                    fontSize={25}
+                    fontWeight={700}
+                  >{`${currency} ${amount ? amount : 0}`}</Box>
+                </Box>
+              </Box>
+            )
+          )}
+        </Box>
       </Box>
-    </Box>
+    </Form>
   );
 }
