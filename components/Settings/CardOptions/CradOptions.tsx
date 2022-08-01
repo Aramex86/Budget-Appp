@@ -132,7 +132,12 @@ export function CradOptions() {
         </Box>
         <Divider />
         <Box marginTop={25}>
-          <Table columns={columns} dataSource={cards} pagination={false} />
+          <Table
+            columns={columns}
+            dataSource={cards}
+            pagination={false}
+            rowKey="id"
+          />
         </Box>
       </Box>
     </Box>

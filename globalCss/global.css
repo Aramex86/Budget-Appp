@@ -36,3 +36,9 @@
 .ant-switch-checked .ant-switch-handle {
   left: calc(100% - 14px - 2px);
 }
+
+/*Select*/
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: #6dcfa380 !important;
+}

@@ -9,6 +9,7 @@ export interface IButtonType extends ButtonProps {
   height?: string | number;
   boxShadow?: string;
   marginRight?: string | number;
+  marginBottom?: string | number;
   borderRadius?: string | number;
   backgroundColor?: string;
   fontWeight?: number;

@@ -15,5 +15,6 @@ export interface IUser {
   email: string;
   lastName: string;
   phone: string;
+  mainCard: UserCards;
   cards: UserCards[];
 }

@@ -1,9 +1,9 @@
-import { LoadingOutlined, PlusOutlined, WifiOutlined } from "@ant-design/icons";
+import { PlusOutlined, WifiOutlined } from "@ant-design/icons";
 import { Colors } from "../../../helpers/enums/colors";
 import Image from "next/image";
 import { AntInput, Box, Button, CustomModal, RadioBtn } from "../..";
 import { UserCards } from "../../../models/userModel";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import {
   Col,
   DatePicker,
@@ -15,29 +15,26 @@ import {
   Spin,
 } from "antd";
 import moment from "moment";
-import { useGetCards, usePostCard } from "../../../hooks";
+import { usePostCard } from "../../../hooks";
+import { antIcon } from "../../Icons";
 
-export default function BankCard() {
-  const { status, data = [], error, isFetching, refetch } = useGetCards();
+interface IBankCard {
+  cards: UserCards[];
+  isFetching: boolean;
+}
+
+export default function BankCard({ cards, isFetching }: IBankCard) {
   const { mutate } = usePostCard();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [bg, setBg] = useState("#484ef4");
   const [date, setDate] = useState<string>("");
+  const [cardNr, setCardNumber] = useState("");
   const [form] = Form.useForm();
-
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-        color: `${Colors.VistaBlue}`,
-      }}
-      spin
-    />
-  );
 
   const showModal = () => {
     setIsModalVisible(true);
   };
+
   const handleOk = () => {
     setIsModalVisible(false);
     const cardObj = form.getFieldsValue(true);
@@ -49,15 +46,15 @@ export default function BankCard() {
     setIsModalVisible(false);
   };
 
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
-
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
     setDate(dateString);
   };
 
-  // console.log(data.length);
+  const handleCardNumber = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+
+    setCardNumber(value);
+  };
 
   if (isFetching)
     return (
@@ -69,7 +66,7 @@ export default function BankCard() {
     <Form form={form} component={false}>
       <Box
         display="flex"
-        overflowX={data.lenght > 3 ? "scroll" : "auto"}
+        overflowX={cards?.length > 3 ? "scroll" : "auto"}
         whiteSpace="nowrap"
         width="70%"
       >
@@ -134,16 +131,11 @@ export default function BankCard() {
             </Col>
             <Col span={8}>
               Currency
-              <Form.Item name="currency" initialValue="$">
-                <Select
-                  // defaultValue="$"
-                  style={{ width: 100 }}
-                  bordered={false}
-                  onChange={handleChange}
-                >
-                  <Select.Option value="€">€</Select.Option>
-                  <Select.Option value="$">$</Select.Option>
-                  <Select.Option value="lei">Lei</Select.Option>
+              <Form.Item name="currency" initialValue="USD">
+                <Select style={{ width: 100 }} bordered={false}>
+                  <Select.Option value="EUR">EUR</Select.Option>
+                  <Select.Option value="USD">USD</Select.Option>
+                  <Select.Option value="LEI">LEI</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -152,11 +144,13 @@ export default function BankCard() {
             <Row>
               <Col span={8}>
                 Valid True
-                <Form.Item name="date">
+                <Form.Item
+                  name="date"
+                  initialValue={moment("01/2022", "MM/YYYY")}
+                >
                   <DatePicker
                     onChange={onChange}
                     bordered={false}
-                    defaultValue={moment("01/2022", "MM/YYYY")}
                     format={"MM/YYYY"}
                     picker="month"
                   />
@@ -166,7 +160,6 @@ export default function BankCard() {
                 Pay System
                 <Form.Item name="paysystem" initialValue="visa">
                   <Radio.Group
-                    defaultValue="visa"
                     style={{
                       display: "flex",
                       justifyContent: "flex-start",
@@ -182,6 +175,22 @@ export default function BankCard() {
             <Box marginTop={10}>
               <Row>
                 <Col span={12}>
+                  Card number
+                  <Form.Item name="cardNumber">
+                    <AntInput
+                      type="text"
+                      maxLength={16}
+                      bordered={false}
+                      placeholder="1234 1234 1234 1234"
+                      // onChange={handleCardNumber}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Box>
+            <Box marginTop={10}>
+              <Row>
+                <Col span={12}>
                   Select background of card
                   <Form.Item name="cardBg" initialValue={bg}>
                     <AntInput type="color" bordered={false} width="50%" />
@@ -192,7 +201,7 @@ export default function BankCard() {
           </Box>
         </CustomModal>
         <Box display="flex">
-          {data?.map(
+          {cards?.map(
             ({ _id, date, paysystem, amount, cardBg, currency }: UserCards) => (
               <Box
                 key={_id}
