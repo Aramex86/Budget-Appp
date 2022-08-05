@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Box>
         <SiderNavigation />
       </Sider>
-      <Layout>
+      <Layout minHeight="100vh">
         <Header background={Colors.White}>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Box width="70%" display="flex" alignSelf="center" fontWeight={900}>

@@ -9,6 +9,25 @@ export interface UserCards {
   cardBg: string;
 }
 
+export interface UserCategories {
+  category: string;
+  amount: string;
+  currency: string;
+}
+
+export interface UserPayments {
+  _id: string;
+  category: string;
+  amount: string;
+  date: string;
+}
+
+export interface UserCategory {
+  category: string;
+  amount: string;
+  currency: string;
+}
+
 export interface IUser {
   _id: string;
   name: string;
@@ -17,4 +36,6 @@ export interface IUser {
   phone: string;
   mainCard: UserCards;
   cards: UserCards[];
+  payments: UserPayments[];
+  categories: UserCategories[];
 }

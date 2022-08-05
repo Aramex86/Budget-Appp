@@ -11,9 +11,6 @@ interface IMainCard {
   isFetching: boolean;
 }
 export function MainCard({ mainCard, isFetching }: IMainCard) {
-  if (isFetching) {
-    return <Spin indicator={antIcon} />;
-  }
   return (
     <Box
       background={Colors.White}
@@ -30,9 +27,16 @@ export function MainCard({ mainCard, isFetching }: IMainCard) {
           Main Balance
         </Box>
         <Box fontSize={26} fontWeight={700} marginBottom={10} display="flex">
-          <Box width="55%">
-            {formatedAmount(mainCard?.amount, mainCard?.currency)}
-          </Box>
+          {isFetching ? (
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Spin indicator={antIcon} />
+            </Box>
+          ) : (
+            <Box width="70%">
+              {formatedAmount(mainCard?.amount, mainCard?.currency)}
+            </Box>
+          )}
+
           <Box
             color={Colors.AmethystSmoke}
             fontSize={18}
@@ -70,7 +74,11 @@ export function MainCard({ mainCard, isFetching }: IMainCard) {
           color={Colors.VistaBlue}
         >
           <InfoCircleOutlined
-            style={{ color: Colors.VistaBlue, cursor: "pointer", fontSize: 16 }}
+            style={{
+              color: Colors.VistaBlue,
+              cursor: "pointer",
+              fontSize: 16,
+            }}
           />
         </Tooltip>
       </Box>
