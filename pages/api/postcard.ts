@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from "../../lib/mongoDb";
 import { IUser } from "../../models/userModel";
 import { ObjectId } from "bson";
-import { Timestamp } from "mongodb";
 
 interface Data {
   users: IUser[];

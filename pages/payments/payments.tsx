@@ -1,9 +1,8 @@
 import { TransactionOutlined } from "@ant-design/icons";
 import { Col, DatePicker, DatePickerProps, Form, Row, Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import moment from "moment";
 import Head from "next/head";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import {
   AntInput,
   Box,
@@ -14,7 +13,7 @@ import {
   PaymentHistory,
 } from "../../components";
 import { Colors } from "../../helpers/enums/colors";
-import { useGetCards } from "../../hooks";
+import { useGetCards, usePostTransaction } from "../../hooks";
 import { IUser } from "../../models/userModel";
 
 export default function Payments() {
@@ -23,10 +22,12 @@ export default function Payments() {
     data = [],
     error,
     isFetching,
+    refetch,
   } = useGetCards({ enabled: true });
+  const { mutate } = usePostTransaction();
   const [showModal, setShowModal] = useState(false);
   const [typeOfAmount, setTypeOfAmount] = useState("");
-  const [date, setDate] = useState("");
+  const [momentDate, setMomentDate] = useState("");
   const [form] = useForm();
   const [user] = data as IUser[];
   const { getFieldsValue, resetFields } = form;
@@ -37,19 +38,23 @@ export default function Payments() {
     return { label: category.category, value: category.category };
   });
 
+  console.log(payments);
   const handleShowModal = () => {
     setShowModal(true);
   };
 
   const handleOk = () => {
     setShowModal(false);
-    const formFields = getFieldsValue();
+    const { amount, category } = getFieldsValue();
 
     const newTransaction = {
-      ...formFields,
-      date,
+      category,
+      amount: `${typeOfAmount}${amount}`,
+      date: momentDate,
+      mainCardAmount: mainCard.amount,
+      mainCardId: mainCard._id,
     };
-    console.log(newTransaction);
+    mutate(newTransaction);
     resetFields();
     setTypeOfAmount("");
   };
@@ -59,7 +64,7 @@ export default function Payments() {
     setTypeOfAmount("");
   };
   const onChange: DatePickerProps["onChange"] = (date, dateString) => {
-    setDate(dateString);
+    setMomentDate(dateString);
   };
   return (
     <Form form={form} component={false}>
@@ -182,6 +187,7 @@ export default function Payments() {
             </Box>
             <Form.Item name="amount">
               <AntInput
+                disabled={typeOfAmount !== "" ? false : true}
                 placeholder="Enter amount"
                 borderColor={`1px solid ${Colors.VistaBlue}`}
                 prefix={

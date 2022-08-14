@@ -10,6 +10,7 @@ interface InputProps extends IInput {
   min?: number;
   max?: number;
   maxLength?: number;
+  disabled?: boolean;
 }
 
 export function AntInput({
@@ -24,6 +25,7 @@ export function AntInput({
   min,
   max,
   maxLength,
+  disabled,
   ...rest
 }: InputProps) {
   return (
@@ -40,6 +42,7 @@ export function AntInput({
       min={min}
       max={max}
       maxLength={maxLength}
+      disabled={disabled}
     />
   );
 }

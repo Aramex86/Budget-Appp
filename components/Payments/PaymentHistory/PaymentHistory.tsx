@@ -129,7 +129,7 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
       render: (text: string) => {
         return (
           <Box
-            color={text.includes("+") ? Colors.Black : Colors.SunsetOrange}
+            color={text.includes("+") ? Colors.VistaBlue : Colors.SunsetOrange}
             fontWeight={700}
             display="flex"
             justifyContent="center"

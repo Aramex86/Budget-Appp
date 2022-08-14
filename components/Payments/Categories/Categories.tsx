@@ -72,7 +72,7 @@ export function Categories({ categories, isFetching }: ICategories) {
           <>
             <Row wrap={true} gutter={[20, 20]} justify="space-between">
               {categories?.map(
-                ({ amount, category, currency }: UserCategories) => (
+                ({ amount = "0", category, currency }: UserCategories) => (
                   <Col xxl={6} xl={10} key={category} flex="auto">
                     <Box
                       padding="10px 10px"
