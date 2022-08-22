@@ -1,4 +1,12 @@
-import { Col, Radio, RadioChangeEvent, Row, Space, Table } from "antd";
+import {
+  Col,
+  DatePicker,
+  Radio,
+  RadioChangeEvent,
+  Row,
+  Space,
+  Table,
+} from "antd";
 import { Colors } from "../../../helpers/enums/colors";
 import { Box, RadioBtn, TabsHeading } from "../..";
 import {
@@ -8,6 +16,9 @@ import {
 } from "@ant-design/icons";
 import { MedicineIcon, PartyIcon } from "../../Icons";
 import { UserCards, UserPayments } from "../../../models/userModel";
+import { useState } from "react";
+import { usePostPeriod } from "../../../hooks";
+import moment from "moment";
 
 interface IPayments {
   payments: UserPayments[];
@@ -15,8 +26,15 @@ interface IPayments {
 }
 
 export function PaymentHistory({ payments, mainCard }: IPayments) {
+  const [showMonth, setShowMonth] = useState(false);
+  const { data, mutate } = usePostPeriod();
   const onChange = (e: RadioChangeEvent) => {
-    console.log(`radio checked:${e.target.value}`);
+    mutate({ period: e.target.value });
+    e.target.value === "monthly" ? setShowMonth(true) : setShowMonth(false);
+  };
+
+  const handleMonth = (value: any) => {
+    mutate({ month: moment(value).format("M") });
   };
 
   const colunms = [
@@ -29,93 +47,123 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
         switch (category) {
           case "Apartament":
             return (
-              <Box
-                width={50}
-                height={50}
-                border={`2px solid ${Colors.VistaBlue}`}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius={50}
-                background="rgb(39 199 182 / 19%)"
-                boxShadow="0px 0px 3px 2px #74d2a8ba"
-              >
-                <HomeOutlined
-                  style={{ fontSize: "24px", color: `rgb(39 199 182)` }}
-                />
+              <Box display="flex">
+                <Box
+                  width={50}
+                  height={50}
+                  border={`2px solid ${Colors.VistaBlue}`}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={50}
+                  background="rgb(39 199 182 / 19%)"
+                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  marginRight={15}
+                >
+                  <HomeOutlined
+                    style={{ fontSize: "24px", color: `rgb(39 199 182)` }}
+                  />
+                </Box>
+                <Box alignSelf="center" fontWeight={500}>
+                  {category}
+                </Box>
               </Box>
             );
           case "Grocery":
             return (
-              <Box
-                width={50}
-                height={50}
-                border={`2px solid ${Colors.VistaBlue}`}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius={50}
-                background="rgb(39 199 182 / 19%)"
-                boxShadow="0px 0px 3px 2px #74d2a8ba"
-              >
-                <ShoppingCartOutlined
-                  style={{ fontSize: "24px", color: "rgb(101 27 206)" }}
-                />
+              <Box display="flex">
+                <Box
+                  width={50}
+                  height={50}
+                  border={`2px solid ${Colors.VistaBlue}`}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={50}
+                  background="rgb(39 199 182 / 19%)"
+                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  marginRight={15}
+                >
+                  <ShoppingCartOutlined
+                    style={{ fontSize: "24px", color: "rgb(101 27 206)" }}
+                  />
+                </Box>
+                <Box alignSelf="center" fontWeight={500}>
+                  {category}
+                </Box>
               </Box>
             );
 
           case "Party":
             return (
-              <Box
-                width={50}
-                height={50}
-                border={`2px solid ${Colors.VistaBlue}`}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius={50}
-                background="rgb(39 199 182 / 19%)"
-                boxShadow="0px 0px 3px 2px #74d2a8ba"
-              >
-                <PartyIcon
-                  style={{ fontSize: "24px", fill: "rgb(60 153 67)" }}
-                />
+              <Box display="flex">
+                <Box
+                  width={50}
+                  height={50}
+                  border={`2px solid ${Colors.VistaBlue}`}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={50}
+                  background="rgb(39 199 182 / 19%)"
+                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  marginRight={15}
+                >
+                  <PartyIcon
+                    style={{ fontSize: "24px", fill: "rgb(60 153 67)" }}
+                  />
+                </Box>
+                <Box alignSelf="center" fontWeight={500}>
+                  {category}
+                </Box>
               </Box>
             );
           case "Medicine":
             return (
-              <Box
-                width={50}
-                height={50}
-                border={`2px solid ${Colors.VistaBlue}`}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius={50}
-                background="rgb(39 199 182 / 19%)"
-                boxShadow="0px 0px 3px 2px #74d2a8ba"
-              >
-                <MedicineIcon
-                  style={{ fontSize: "24px", fill: "rgb(217 51 51)" }}
-                />
+              <Box display="flex">
+                <Box
+                  width={50}
+                  height={50}
+                  border={`2px solid ${Colors.VistaBlue}`}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={50}
+                  background="rgb(39 199 182 / 19%)"
+                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  marginRight={15}
+                >
+                  <MedicineIcon
+                    style={{ fontSize: "24px", fill: "rgb(217 51 51)" }}
+                  />
+                </Box>
+                <Box alignSelf="center" fontWeight={500}>
+                  {category}
+                </Box>
               </Box>
             );
           case "Salary":
             return (
-              <Box
-                width={50}
-                height={50}
-                border={`2px solid ${Colors.VistaBlue}`}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                borderRadius={50}
-                background="rgb(39 199 182 / 19%)"
-                boxShadow="0px 0px 3px 2px #74d2a8ba"
-              >
-                <DollarOutlined
-                  style={{ fontSize: "24px", color: "rgb(50 170 220)" }}
-                />
+              <Box display="flex">
+                <Box
+                  width={50}
+                  height={50}
+                  border={`2px solid ${Colors.VistaBlue}`}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={50}
+                  background="rgb(39 199 182 / 19%)"
+                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  marginRight={15}
+                >
+                  <DollarOutlined
+                    style={{ fontSize: "24px", color: "rgb(50 170 220)" }}
+                  />
+                </Box>
+                <Box alignSelf="center" fontWeight={500}>
+                  {category}
+                </Box>
               </Box>
             );
         }
@@ -177,24 +225,22 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
           color={Colors.Black}
           subText="Here you can see latest transactions"
         />
-        <Radio.Group
-          onChange={onChange}
-          defaultValue="today"
-          buttonStyle="solid"
-        >
+        <Radio.Group onChange={onChange} defaultValue="all" buttonStyle="solid">
           <Space>
+            {showMonth && <DatePicker picker="month" onChange={handleMonth} />}
+            {/* <RadioBtn value="weekly">Weekly</RadioBtn> */}
             <RadioBtn value="monthly">Monthly</RadioBtn>
-            <RadioBtn value="weekly">Weekly</RadioBtn>
             <RadioBtn value="today">Today</RadioBtn>
+            <RadioBtn value="all">All</RadioBtn>
           </Space>
         </Radio.Group>
       </Box>
       <Box marginTop={20}>
         <Table
-          dataSource={payments}
-          pagination={false}
+          dataSource={data?.length ? data : payments}
           columns={colunms}
           rowKey="_id"
+          pagination={{ total: payments?.length, pageSize: 10 }}
         />
       </Box>
     </Box>

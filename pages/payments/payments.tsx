@@ -38,7 +38,6 @@ export default function Payments() {
     return { label: category.category, value: category.category };
   });
 
-  console.log(payments);
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -79,8 +78,8 @@ export default function Payments() {
           <Col xxl={12} xl={10}>
             <Categories categories={categories} isFetching={isFetching} />
           </Col>
-          <Col xxl={4}>
-            <Box>
+          <Col xxl={4} flex={1}>
+            <Box paddingTop={29}>
               <Button
                 height="auto"
                 backgroundColor={Colors.VistaBlue}

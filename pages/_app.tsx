@@ -16,6 +16,7 @@ import {
 } from "../components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
@@ -80,6 +81,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Box>
         </Header>
         <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
           <Component {...pageProps} />
         </QueryClientProvider>
       </Layout>
