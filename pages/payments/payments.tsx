@@ -1,8 +1,9 @@
 import { TransactionOutlined } from "@ant-design/icons";
 import { Col, DatePicker, DatePickerProps, Form, Row, Select } from "antd";
 import { useForm } from "antd/lib/form/Form";
+import moment from "moment";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AntInput,
   Box,
@@ -26,11 +27,14 @@ export default function Payments() {
   } = useGetCards({ enabled: true });
   const { mutate } = usePostTransaction();
   const [showModal, setShowModal] = useState(false);
+
   const [typeOfAmount, setTypeOfAmount] = useState("");
-  const [momentDate, setMomentDate] = useState("");
+  const [momentDate, setMomentDate] = useState(
+    moment().format("DD/MM/YYYY HH:MM A")
+  );
   const [form] = useForm();
   const [user] = data as IUser[];
-  const { getFieldsValue, resetFields } = form;
+  const { getFieldsValue, resetFields, validateFields, setFieldValue } = form;
 
   const { mainCard, categories, payments } = user || {};
 
@@ -38,31 +42,41 @@ export default function Payments() {
     return { label: category.category, value: category.category };
   });
 
+  useEffect(() => {
+    setFieldValue("date", momentDate);
+  }, []);
+
   const handleShowModal = () => {
     setShowModal(true);
   };
 
-  const handleOk = () => {
-    setShowModal(false);
-    const { amount, category } = getFieldsValue();
-
-    const newTransaction = {
-      category,
-      amount: `${typeOfAmount}${amount}`,
-      date: momentDate,
-      mainCardAmount: mainCard.amount,
-      mainCardId: mainCard._id,
-    };
-    mutate(newTransaction);
-    resetFields();
-    setTypeOfAmount("");
+  const handleOk = async () => {
+    try {
+      const values = await validateFields();
+      if (values) {
+        setShowModal(false);
+        const { amount, category } = getFieldsValue();
+        const newTransaction = {
+          category,
+          amount: `${typeOfAmount}${amount}`,
+          date: momentDate,
+          mainCardAmount: mainCard.amount,
+          mainCardId: mainCard._id,
+        };
+        mutate(newTransaction);
+        resetFields();
+        setTypeOfAmount("");
+      }
+    } catch (errorInfo) {
+      console.log("Failed:", errorInfo);
+    }
   };
   const handleCancel = () => {
     setShowModal(false);
     resetFields();
     setTypeOfAmount("");
   };
-  const onChange: DatePickerProps["onChange"] = (date, dateString) => {
+  const handleDate: DatePickerProps["onChange"] = (date, dateString) => {
     setMomentDate(dateString);
   };
   return (
@@ -120,7 +134,11 @@ export default function Payments() {
       <Row justify="center">
         <Col span={22}>
           <Box padding="25px 20px">
-            <PaymentHistory payments={payments} mainCard={mainCard} />
+            <PaymentHistory
+              payments={payments}
+              mainCard={mainCard}
+              refetch={refetch}
+            />
           </Box>
         </Col>
       </Row>
@@ -152,7 +170,15 @@ export default function Payments() {
       >
         <Box>
           <Box fontWeight={600}>Category</Box>
-          <Form.Item name="category">
+          <Form.Item
+            name="category"
+            rules={[
+              {
+                required: true,
+                message: "Please select a category",
+              },
+            ]}
+          >
             <Select
               bordered={false}
               options={categoryOptions}
@@ -184,7 +210,15 @@ export default function Payments() {
                 Expense
               </Button>
             </Box>
-            <Form.Item name="amount">
+            <Form.Item
+              name="amount"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your amount",
+                },
+              ]}
+            >
               <AntInput
                 disabled={typeOfAmount !== "" ? false : true}
                 placeholder="Enter amount"
@@ -211,9 +245,10 @@ export default function Payments() {
           <Form.Item name="date">
             <Box>Date</Box>
             <DatePicker
-              onChange={onChange}
-              bordered={false}
+              onChange={handleDate}
+              bordered={true}
               format="DD/MM/YYYY HH:MM A"
+              defaultValue={moment()}
             />
           </Form.Item>
         </Box>

@@ -8,6 +8,8 @@ import { Colors } from "../../../helpers/enums/colors";
 import { Box, Button } from "../..";
 import { PartyIcon, MedicineIcon, antIcon } from "../../Icons";
 import { UserCategories } from "../../../models/userModel";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface ICategories {
   categories: UserCategories[];

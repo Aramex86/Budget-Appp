@@ -16,16 +16,21 @@ import {
 } from "@ant-design/icons";
 import { MedicineIcon, PartyIcon } from "../../Icons";
 import { UserCards, UserPayments } from "../../../models/userModel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePostPeriod } from "../../../hooks";
 import moment from "moment";
 
 interface IPayments {
   payments: UserPayments[];
   mainCard: UserCards;
+  refetch?: any;
 }
 
-export function PaymentHistory({ payments, mainCard }: IPayments) {
+export function PaymentHistory({
+  payments = [],
+  mainCard,
+  refetch,
+}: IPayments) {
   const [showMonth, setShowMonth] = useState(false);
   const { data, mutate } = usePostPeriod();
   const onChange = (e: RadioChangeEvent) => {
@@ -36,6 +41,14 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
   const handleMonth = (value: any) => {
     mutate({ month: moment(value).format("M") });
   };
+
+  useEffect(() => {
+    refetch();
+  }, [data]);
+
+  useEffect(() => {
+    mutate({ peroid: "all" });
+  }, []);
 
   const colunms = [
     {
@@ -51,13 +64,12 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
                 <Box
                   width={50}
                   height={50}
-                  border={`2px solid ${Colors.VistaBlue}`}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
                   borderRadius={50}
                   background="rgb(39 199 182 / 19%)"
-                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  boxShadow="0px 0px 3px 2px #74d2a88c"
                   marginRight={15}
                 >
                   <HomeOutlined
@@ -75,13 +87,12 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
                 <Box
                   width={50}
                   height={50}
-                  border={`2px solid ${Colors.VistaBlue}`}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
                   borderRadius={50}
                   background="rgb(39 199 182 / 19%)"
-                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  boxShadow="0px 0px 3px 2px #74d2a88c"
                   marginRight={15}
                 >
                   <ShoppingCartOutlined
@@ -100,13 +111,12 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
                 <Box
                   width={50}
                   height={50}
-                  border={`2px solid ${Colors.VistaBlue}`}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
                   borderRadius={50}
                   background="rgb(39 199 182 / 19%)"
-                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  boxShadow="0px 0px 3px 2px #74d2a88c"
                   marginRight={15}
                 >
                   <PartyIcon
@@ -124,13 +134,12 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
                 <Box
                   width={50}
                   height={50}
-                  border={`2px solid ${Colors.VistaBlue}`}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
                   borderRadius={50}
                   background="rgb(39 199 182 / 19%)"
-                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  boxShadow="0px 0px 3px 2px #74d2a88c"
                   marginRight={15}
                 >
                   <MedicineIcon
@@ -148,13 +157,12 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
                 <Box
                   width={50}
                   height={50}
-                  border={`2px solid ${Colors.VistaBlue}`}
                   display="flex"
                   alignItems="center"
                   justifyContent="center"
                   borderRadius={50}
                   background="rgb(39 199 182 / 19%)"
-                  boxShadow="0px 0px 3px 2px #74d2a8ba"
+                  boxShadow="0px 0px 3px 2px #74d2a88c"
                   marginRight={15}
                 >
                   <DollarOutlined
@@ -230,7 +238,7 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
             {showMonth && <DatePicker picker="month" onChange={handleMonth} />}
             {/* <RadioBtn value="weekly">Weekly</RadioBtn> */}
             <RadioBtn value="monthly">Monthly</RadioBtn>
-            <RadioBtn value="today">Today</RadioBtn>
+            <RadioBtn value="day">Today</RadioBtn>
             <RadioBtn value="all">All</RadioBtn>
           </Space>
         </Radio.Group>
@@ -240,7 +248,10 @@ export function PaymentHistory({ payments, mainCard }: IPayments) {
           dataSource={data?.length ? data : payments}
           columns={colunms}
           rowKey="_id"
-          pagination={{ total: payments?.length, pageSize: 10 }}
+          pagination={{
+            total: data ? data?.length : payments?.length,
+            pageSize: 10,
+          }}
         />
       </Box>
     </Box>
