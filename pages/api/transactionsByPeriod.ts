@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import { NextApiResponse } from "next";
 import { NextApiRequest } from "next";
 import { connectToDatabase } from "../../lib/mongoDb";
+import moment from "moment";
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,16 +22,18 @@ export default async function handler(
       .find({ _id: new ObjectId("62dc4a8105f94163a295537c") })
       .forEach((user) => {
         const { payments } = user;
-        const today = new Date().getDate();
+        const today = moment().format("DD");
         payments?.map((day: any) => {
           return day.date.substring(2, -1) === `${today}` && dayly.push(day);
         });
       })
       .then(() => {
         res.status(200).json(dayly);
+        res.end();
       })
       .catch(() => {
         res.status(500).json({ message: "something wrong" });
+        res.end();
       });
   }
 
