@@ -36,3 +36,80 @@
 .ant-switch-checked .ant-switch-handle {
   left: calc(100% - 14px - 2px);
 }
+
+/*Select*/
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: #6dcfa380 !important;
+}
+
+/*Pagination*/
+
+.ant-pagination-item-active {
+  border-color: transparent !important;
+  background: #74d2a8 !important;
+}
+.ant-pagination-item-active a {
+  color: #fff !important;
+}
+
+.ant-pagination-item:hover {
+  border-color: transparent !important;
+  background: #74d2a8 !important;
+}
+.ant-pagination-item:hover a {
+  color: #fff !important;
+}
+
+.ant-pagination-prev,
+.ant-pagination-next {
+  border-color: transparent !important;
+  background: #74d2a8 !important;
+}
+
+.ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: transparent !important;
+  background: #74d2a8 !important;
+  color: #fff !important;
+}
+
+.ant-pagination-disabled .ant-pagination-item-link,
+.ant-pagination-disabled:hover .ant-pagination-item-link {
+  color: rgba(0, 0, 0, 0.25) !important;
+  border-color: #d9d9d9 !important;
+  background: #fff !important;
+}
+
+/*Calendar*/
+.ant-picker:hover,
+.ant-picker-focused {
+  border-color: #74d2a8 !important;
+  box-shadow: 0 0 0 2px rgb(24 255 204 / 20%);
+}
+
+.ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+.ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end)
+  .ant-picker-cell-inner {
+  background: #74d2a8 !important;
+  color: #fff !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: #74d2a8 !important;
+}
+.ant-picker-header-view button:hover {
+  color: #74d2a8 !important;
+}
+
+/*Picker*/
+
+.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+  border: 1px solid #74d2a8 !important;
+}
+
+.ant-picker-today-btn {
+  color: #74d2a8 !important;
+}

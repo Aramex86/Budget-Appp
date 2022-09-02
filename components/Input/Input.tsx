@@ -7,6 +7,10 @@ interface InputProps extends IInput {
   placeholder?: string;
   bordered?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  min?: number;
+  max?: number;
+  maxLength?: number;
+  disabled?: boolean;
 }
 
 export function AntInput({
@@ -18,6 +22,10 @@ export function AntInput({
   onChange,
   type,
   value,
+  min,
+  max,
+  maxLength,
+  disabled,
   ...rest
 }: InputProps) {
   return (
@@ -31,6 +39,10 @@ export function AntInput({
       bordered={bordered}
       onChange={onChange}
       type={type}
+      min={min}
+      max={max}
+      maxLength={maxLength}
+      disabled={disabled}
     />
   );
 }

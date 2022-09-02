@@ -15,11 +15,12 @@ import {
   Layout,
 } from "../components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+
   return (
     // <ThemeProvider theme={theme}>
 
@@ -36,7 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Box>
         <SiderNavigation />
       </Sider>
-      <Layout>
+      <Layout minHeight="100vh">
         <Header background={Colors.White}>
           <Box display="flex" alignItems="center" justifyContent="center">
             <Box width="70%" display="flex" alignSelf="center" fontWeight={900}>
@@ -80,6 +81,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Box>
         </Header>
         <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
           <Component {...pageProps} />
         </QueryClientProvider>
       </Layout>

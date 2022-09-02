@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import StyledLayout from "./Layout.styled";
+import StyledLayout, { LayoutType } from "./Layout.styled";
 
-interface ILayout {
+interface ILayout extends LayoutType {
   children: ReactNode;
 }
 

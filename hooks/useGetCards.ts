@@ -3,13 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const fetchData = async () => {
-  const { data } = await axios.get("api/users");
-  const cards = data?.map((d: IUser) => d.cards).flat();
-  return cards;
+  const { data } = await axios.get("/api/users");
+
+  return data;
 };
 
-function useGetCards() {
-  return useQuery(["cards"], fetchData);
+function useGetCards({ enabled }: { enabled: boolean }) {
+  return useQuery(["cards"], fetchData, {
+    enabled: enabled,
+  });
 }
 
 export { fetchData, useGetCards };

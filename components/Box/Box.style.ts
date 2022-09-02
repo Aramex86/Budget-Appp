@@ -22,7 +22,7 @@ export interface BoxType {
     | "space-evenly"
     | "flex-start"
     | "flex-end";
-  textAlign?: "initial" | "center" | "left" | "right";
+  textAlign?: "initial" | "center" | "left" | "right" | "top" | "bottom";
   alignItems?: "normal" | "center" | "start" | "end" | "baseline";
   flexDirection?: "row" | "column";
   border?: string;
@@ -55,6 +55,7 @@ export interface BoxType {
   textTransform?: "capitalize" | "lowercase" | "uppercase";
   transform?: string;
   zIndex?: number;
+  gap?: number | string;
 }
 
 export const StyledBox = styled.div(({ style }: BoxType) => ({

@@ -6,8 +6,19 @@ import BankCard from "../components/Dashboard/BankCard/BankCard";
 import { Box } from "../components/Box/Box";
 import LineChart from "../components/Dashboard/Chart/Chart";
 import RecentActivity from "../components/Dashboard/RecentActivity/RecentActivity";
+import { useGetCards } from "../hooks";
+import { UserCards } from "../models/userModel";
 
 const Home: NextPage = () => {
+  const {
+    status,
+    data = [],
+    error,
+    isFetching,
+  } = useGetCards({ enabled: false });
+
+  const cards: UserCards[] = data[0]?.cards;
+
   return (
     <>
       <Head>
@@ -17,8 +28,8 @@ const Home: NextPage = () => {
       </Head>
       <Box padding={50}>
         <Box display="flex" justifyContent="space-between">
-          <BalanceCard />
-          <BankCard />
+          <BalanceCard cards={cards} />
+          <BankCard cards={cards} isFetching={isFetching} />
         </Box>
         <Box display="flex" justifyContent="space-between" marginTop={40}>
           <LineChart />

@@ -154,14 +154,14 @@ export default function Chart() {
               </Button>
             </Box>
             <Box>
-              <Button
+              {/* <Button
                 borderRadius={5}
                 border={`1px solid ${Colors.SilverSand}`}
                 color={period === "Weekly" ? Colors.Black : Colors.SilverSand}
                 onClick={handleWeek}
               >
                 Weekly
-              </Button>
+              </Button> */}
             </Box>
             <Box>
               <Button

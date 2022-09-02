@@ -9,6 +9,7 @@ export interface IButtonType extends ButtonProps {
   height?: string | number;
   boxShadow?: string;
   marginRight?: string | number;
+  marginBottom?: string | number;
   borderRadius?: string | number;
   backgroundColor?: string;
   fontWeight?: number;
@@ -31,6 +32,7 @@ export interface IButtonType extends ButtonProps {
   textAlign?: "initial" | "center" | "left" | "right";
   alignItems?: "normal" | "center" | "start" | "end" | "baseline";
   padding?: number | string;
+  fontSize?: number | string;
 }
 
 // const ButtonIcon = styled(Button)(
