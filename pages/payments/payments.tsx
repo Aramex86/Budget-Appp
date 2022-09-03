@@ -107,6 +107,13 @@ export default function Payments() {
     setNameOfAmount("income");
   };
 
+  const handleExpense = () => {
+    setTypeOfAmount("-");
+    setNameOfAmount("expense");
+    setDisableCategory(false);
+    setShowCards(false);
+  };
+
   return (
     <Form form={form} component={false}>
       <Head>
@@ -234,7 +241,7 @@ export default function Payments() {
                 backgroundColor={Colors.SunsetOrange}
                 border="none"
                 color={Colors.White}
-                onClick={() => setTypeOfAmount("-")}
+                onClick={handleExpense}
               >
                 Expense
               </Button>
