@@ -17,6 +17,7 @@ import {
 import moment from "moment";
 import { usePostCard } from "../../../hooks";
 import { antIcon } from "../../Icons";
+import { formatedAmount } from "../../../helpers/formatedAmount";
 
 interface IBankCard {
   cards: UserCards[];
@@ -265,7 +266,9 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
                     paddingLeft={10}
                     fontSize={25}
                     fontWeight={700}
-                  >{`${currency} ${amount ? amount : 0}`}</Box>
+                  >
+                    {formatedAmount(amount, currency)}
+                  </Box>
                 </Box>
               </Box>
             )

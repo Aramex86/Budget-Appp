@@ -11,9 +11,12 @@ import {
 
 import { Line } from "react-chartjs-2";
 import { Colors } from "../../../helpers/enums/colors";
-import { Space } from "antd";
-import { useState } from "react";
-import { Box, Button } from "../..";
+import { DatePicker, Space } from "antd";
+import { Box } from "../..";
+import { useGetByMonth } from "../../../hooks/useFetchByMonth";
+import moment from "moment";
+import { UserPayments } from "../../../models/userModel";
+import { useEffect } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -81,58 +84,53 @@ export const options = {
   },
 } as const;
 
-const labels = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November ",
-  "December ",
-];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Income",
-      data: [200, 250, 400, 1500, 700, 900, 400, 800, 1200, 300, 800, 550],
-      borderColor: `${Colors.BlueDiamond}`,
-      backgroundColor: `${Colors.VeryLightBlue}`,
-      yAxisID: "y",
-      tension: 0.6,
-      fill: true,
-    },
-    {
-      label: "Expenses",
-      data: [
-        -200, -250, -400, -0, -700, -900, -400, -800, -1200, -300, -800, -550,
-      ],
-      borderColor: "rgb(250, 46, 90)",
-      backgroundColor: `${Colors.CoralPink}`,
-      color: "red",
-      yAxisID: "y",
-      tension: 0.6,
-    },
-  ],
-};
-
 export default function Chart() {
-  const [period, setPeriod] = useState<string>("Monthly");
+  const { data, mutate } = useGetByMonth();
 
-  const handleMonth = () => {
-    setPeriod("Monthly");
+  const income: any = [];
+  const expense: any[] = [];
+  const handleMonth = (value: any) => {
+    mutate(value && { month: Number(moment(value).format("MM")) });
   };
-  const handleWeek = () => {
-    setPeriod("Weekly");
-  };
-  const handleDay = () => {
-    setPeriod("Daily");
+
+  useEffect(() => {
+    mutate({ month: null });
+  }, []);
+
+  data?.map(({ amount, category }: UserPayments) => {
+    if (amount.includes("-")) {
+      return expense.push(amount);
+    } else {
+      return income.push(amount);
+    }
+  });
+
+  const labels = data?.map(({ date }: UserPayments) => date.slice(0, 5));
+
+  const category = data?.map(({ category }: UserPayments) => category);
+
+  const chartData = {
+    labels,
+    datasets: [
+      {
+        label: "Incomes",
+        data: income,
+        borderColor: `${Colors.BlueDiamond}`,
+        backgroundColor: `${Colors.VeryLightBlue}`,
+        yAxisID: "y",
+        tension: 0.6,
+        fill: true,
+      },
+      {
+        label: "Expenses",
+        data: expense,
+        borderColor: "rgb(250, 46, 90)",
+        backgroundColor: `${Colors.CoralPink}`,
+        color: "red",
+        yAxisID: "y",
+        tension: 0.6,
+      },
+    ],
   };
 
   return (
@@ -144,40 +142,13 @@ export default function Chart() {
         <Box display="flex">
           <Space size={10}>
             <Box>
-              <Button
-                borderRadius={5}
-                border={`1px solid ${Colors.SilverSand}`}
-                color={period === "Monthly" ? Colors.Black : Colors.SilverSand}
-                onClick={handleMonth}
-              >
-                Monthly
-              </Button>
-            </Box>
-            <Box>
-              {/* <Button
-                borderRadius={5}
-                border={`1px solid ${Colors.SilverSand}`}
-                color={period === "Weekly" ? Colors.Black : Colors.SilverSand}
-                onClick={handleWeek}
-              >
-                Weekly
-              </Button> */}
-            </Box>
-            <Box>
-              <Button
-                borderRadius={5}
-                border={`1px solid ${Colors.SilverSand}`}
-                color={period === "Daily" ? Colors.Black : Colors.SilverSand}
-                onClick={handleDay}
-              >
-                Daily
-              </Button>
+              <DatePicker picker="month" autoFocus onChange={handleMonth} />
             </Box>
           </Space>
         </Box>
       </Box>
       <Box background={Colors.White} borderRadius="10px">
-        <Line options={options} data={data} />
+        <Line options={options} data={chartData} />
       </Box>
     </Box>
   );
