@@ -1,3 +1,4 @@
+import { stringToNumber } from "./../../helpers/stringToNumber";
 import { IUser, UserPayments } from "./../../models/userModel";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -17,12 +18,11 @@ export default async function handler(
 
   const { amount, mainCardAmount, mainCardId, category } = req.body;
   let cardSum = mainCardAmount;
-  const amountToNumber = Number(amount.slice(1));
 
   if (amount < 0) {
-    cardSum = Number(mainCardAmount) - amountToNumber;
+    cardSum = Number(mainCardAmount) - stringToNumber(amount);
   } else if (amount > 0) {
-    cardSum = Number(mainCardAmount) + amountToNumber;
+    cardSum = Number(mainCardAmount) + stringToNumber(amount);
   }
 
   try {

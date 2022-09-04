@@ -28,13 +28,16 @@ export default function Payments() {
   } = useGetCards({ enabled: true });
   const { mutate } = usePostTransaction();
   const { data: incomeData, mutate: incomeMutate } = usePostIncome();
+
   const [showModal, setShowModal] = useState<boolean>(false);
   const [disableCategory, setDisableCategory] = useState<boolean>(false);
   const [showCards, setShowCards] = useState<boolean>(false);
-  const [typeOfAmount, setTypeOfAmount] = useState<string>("");
-  const [nameOfAmount, setNameOfAmount] = useState<string>("expense");
-  const [momentDate, setMomentDate] = useState<string>("");
+
   const [cardId, setCardId] = useState<string>("");
+  const [typeOfAmount, setTypeOfAmount] = useState<string>("");
+  const [momentDate, setMomentDate] = useState<string>(
+    moment().format("DD/MM/YYYY HH:mm A")
+  );
 
   const [form] = useForm();
   const [user] = data as IUser[];
@@ -70,20 +73,17 @@ export default function Payments() {
           mainCardAmount: mainCard.amount,
           mainCardId: mainCard._id,
         };
-
         const incomeTransaction = {
           cardId: cardId,
           amount: amount,
+          mainCardAmount: mainCard.amount,
           date: momentDate,
         };
-
-        nameOfAmount === "expense"
+        typeOfAmount === "-"
           ? mutate(newTransaction)
           : incomeMutate(incomeTransaction);
-
         resetFields();
         setTypeOfAmount("");
-        setNameOfAmount("expense");
         setDisableCategory(false);
         setShowCards(false);
       }
@@ -96,6 +96,7 @@ export default function Payments() {
     resetFields();
     setTypeOfAmount("");
   };
+
   const handleDate: DatePickerProps["onChange"] = (date) => {
     setMomentDate(moment(date).format("DD/MM/YYYY HH:mm A"));
   };
@@ -104,12 +105,10 @@ export default function Payments() {
     setTypeOfAmount("+");
     setDisableCategory(true);
     setShowCards(true);
-    setNameOfAmount("income");
   };
 
   const handleExpense = () => {
     setTypeOfAmount("-");
-    setNameOfAmount("expense");
     setDisableCategory(false);
     setShowCards(false);
   };
@@ -209,8 +208,8 @@ export default function Payments() {
             name="category"
             rules={[
               {
-                required: nameOfAmount ? false : true,
-                message: "Please select a category",
+                required: typeOfAmount !== "-" ? false : true,
+                message: `${typeOfAmount ? "Please select a category" : ""}`,
               },
             ]}
           >
@@ -256,7 +255,6 @@ export default function Payments() {
               ]}
             >
               <AntInput
-                disabled={typeOfAmount !== "" ? false : true}
                 placeholder="Enter amount"
                 borderColor={`1px solid ${Colors.VistaBlue}`}
                 prefix={
@@ -297,6 +295,9 @@ export default function Payments() {
                   borderRadius={5}
                   onClick={() => setCardId(_id)}
                   cursor="pointer"
+                  boxShadow={
+                    _id === cardId ? `rgb(63 74 73 / 75%) 0px 2px 8px 2px` : ""
+                  }
                 >
                   <Box fontWeight={600} fontSize={18}>
                     {formatedAmount(amount, currency)}

@@ -17,21 +17,22 @@ export default async function handler(
     .find({ _id: new ObjectId("62dc4a8105f94163a295537c") })
     .forEach((user) => {
       const { mainCard, cards } = user;
+      const summ = Number(mainCard.amount) + Number(amount);
+
       const sumTheAmount = cards.find((card: UserCards) => {
         return card._id.toString() === cardId;
       });
+
       const sumWithIncome =
         amount && Number(sumTheAmount.amount) + Number(amount);
 
       db.collection("users").updateOne(
         {
           "cards._id": new ObjectId(cardId),
-          "mainCard._id": new ObjectId(mainCard._id),
         },
         {
           $set: {
             "cards.$.amount": String(sumWithIncome),
-            "mainCard.amount": String(sumWithIncome),
           },
           $push: {
             payments: {
@@ -45,6 +46,10 @@ export default async function handler(
             },
           },
         }
+      );
+      db.collection("users").updateOne(
+        { "mainCard._id": new ObjectId(cardId) },
+        { $set: { "mainCard.amount": `${summ}` } }
       );
     })
 
