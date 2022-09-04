@@ -20,6 +20,7 @@ export interface UserPayments {
   category: string;
   amount: string;
   date: string;
+  created?: string;
 }
 
 export interface IUser {

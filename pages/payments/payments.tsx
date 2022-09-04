@@ -14,8 +14,9 @@ import {
   PaymentHistory,
 } from "../../components";
 import { Colors } from "../../helpers/enums/colors";
-import { useGetCards, usePostTransaction } from "../../hooks";
-import { IUser } from "../../models/userModel";
+import { formatedAmount } from "../../helpers/formatedAmount";
+import { useGetCards, usePostIncome, usePostTransaction } from "../../hooks";
+import { IUser, UserCards } from "../../models/userModel";
 
 export default function Payments() {
   const {
@@ -26,17 +27,23 @@ export default function Payments() {
     refetch,
   } = useGetCards({ enabled: true });
   const { mutate } = usePostTransaction();
-  const [showModal, setShowModal] = useState(false);
+  const { data: incomeData, mutate: incomeMutate } = usePostIncome();
 
-  const [typeOfAmount, setTypeOfAmount] = useState("");
-  const [momentDate, setMomentDate] = useState(
-    moment().format("DD/MM/YYYY HH:MM A")
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [disableCategory, setDisableCategory] = useState<boolean>(false);
+  const [showCards, setShowCards] = useState<boolean>(false);
+
+  const [cardId, setCardId] = useState<string>("");
+  const [typeOfAmount, setTypeOfAmount] = useState<string>("");
+  const [momentDate, setMomentDate] = useState<string>(
+    moment().format("DD/MM/YYYY HH:mm A")
   );
+
   const [form] = useForm();
   const [user] = data as IUser[];
   const { getFieldsValue, resetFields, validateFields, setFieldValue } = form;
 
-  const { mainCard, categories, payments } = user || {};
+  const { mainCard, categories, payments, cards } = user || {};
 
   const categoryOptions = categories?.map((category) => {
     return { label: category.category, value: category.category };
@@ -46,10 +53,13 @@ export default function Payments() {
     setFieldValue("date", momentDate);
   }, []);
 
+  useEffect(() => {
+    refetch();
+  }, [incomeData]);
+
   const handleShowModal = () => {
     setShowModal(true);
   };
-
   const handleOk = async () => {
     try {
       const values = await validateFields();
@@ -63,9 +73,19 @@ export default function Payments() {
           mainCardAmount: mainCard.amount,
           mainCardId: mainCard._id,
         };
-        mutate(newTransaction);
+        const incomeTransaction = {
+          cardId: cardId,
+          amount: amount,
+          mainCardAmount: mainCard.amount,
+          date: momentDate,
+        };
+        typeOfAmount === "-"
+          ? mutate(newTransaction)
+          : incomeMutate(incomeTransaction);
         resetFields();
         setTypeOfAmount("");
+        setDisableCategory(false);
+        setShowCards(false);
       }
     } catch (errorInfo) {
       console.log("Failed:", errorInfo);
@@ -76,9 +96,23 @@ export default function Payments() {
     resetFields();
     setTypeOfAmount("");
   };
-  const handleDate: DatePickerProps["onChange"] = (date, dateString) => {
-    setMomentDate(dateString);
+
+  const handleDate: DatePickerProps["onChange"] = (date) => {
+    setMomentDate(moment(date).format("DD/MM/YYYY HH:mm A"));
   };
+
+  const handleIcome = () => {
+    setTypeOfAmount("+");
+    setDisableCategory(true);
+    setShowCards(true);
+  };
+
+  const handleExpense = () => {
+    setTypeOfAmount("-");
+    setDisableCategory(false);
+    setShowCards(false);
+  };
+
   return (
     <Form form={form} component={false}>
       <Head>
@@ -174,8 +208,8 @@ export default function Payments() {
             name="category"
             rules={[
               {
-                required: true,
-                message: "Please select a category",
+                required: typeOfAmount !== "-" ? false : true,
+                message: `${typeOfAmount ? "Please select a category" : ""}`,
               },
             ]}
           >
@@ -184,6 +218,7 @@ export default function Payments() {
               options={categoryOptions}
               dropdownStyle={{ fontWeight: 700 }}
               placeholder={<Box>select a category</Box>}
+              disabled={disableCategory}
             />
           </Form.Item>
         </Box>
@@ -196,7 +231,7 @@ export default function Payments() {
                 backgroundColor={Colors.VistaBlue}
                 border="none"
                 color={Colors.White}
-                onClick={() => setTypeOfAmount("+")}
+                onClick={handleIcome}
                 marginRight={10}
               >
                 Income
@@ -205,7 +240,7 @@ export default function Payments() {
                 backgroundColor={Colors.SunsetOrange}
                 border="none"
                 color={Colors.White}
-                onClick={() => setTypeOfAmount("-")}
+                onClick={handleExpense}
               >
                 Expense
               </Button>
@@ -220,7 +255,6 @@ export default function Payments() {
               ]}
             >
               <AntInput
-                disabled={typeOfAmount !== "" ? false : true}
                 placeholder="Enter amount"
                 borderColor={`1px solid ${Colors.VistaBlue}`}
                 prefix={
@@ -241,13 +275,46 @@ export default function Payments() {
             </Form.Item>
           </Box>
         </Box>
+        {showCards && (
+          <Box display="flex" gap={10} marginBottom={15}>
+            {cards.map(
+              ({
+                _id,
+                amount,
+                cardBg,
+                paysystem,
+                currency,
+                cardNumber,
+              }: UserCards) => (
+                <Box
+                  key={_id}
+                  background={cardBg}
+                  width="30%"
+                  color={Colors.White}
+                  padding="10px 10px"
+                  borderRadius={5}
+                  onClick={() => setCardId(_id)}
+                  cursor="pointer"
+                  boxShadow={
+                    _id === cardId ? `rgb(63 74 73 / 75%) 0px 2px 8px 2px` : ""
+                  }
+                >
+                  <Box fontWeight={600} fontSize={18}>
+                    {formatedAmount(amount, currency)}
+                  </Box>
+                  <Box>{paysystem.toUpperCase()}</Box>
+                </Box>
+              )
+            )}
+          </Box>
+        )}
         <Box fontWeight={600}>
           <Form.Item name="date">
             <Box>Date</Box>
             <DatePicker
               onChange={handleDate}
               bordered={true}
-              format="DD/MM/YYYY HH:MM A"
+              format="DD/MM/YYYY HH:mm A"
               defaultValue={moment()}
             />
           </Form.Item>
