@@ -17,13 +17,12 @@ const Home: NextPage = () => {
     isFetching,
   } = useGetCards({ enabled: false });
 
-  // const cards: UserCards[] = card[0]?.cards;
   const [user] = cards as IUser[];
 
   return (
     <>
       <Head>
-        <title>users</title>
+        <title>Dashboard</title>
         <meta name="description" content="Budget App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

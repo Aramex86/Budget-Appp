@@ -66,11 +66,6 @@ export function BalanceCard({ cards }: IBalance) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currency, setCurrency] = useState("USD");
 
-  // const formatedAmount = new Intl.NumberFormat("us-Us", {
-  //   style: "currency",
-  //   currency: currency,
-  // });
-
   const amount = cards
     ?.filter((a) => {
       if (a.currency === currency) {
@@ -151,7 +146,7 @@ export function BalanceCard({ cards }: IBalance) {
           </sup>
         </Box>
         <Box color={Colors.SilverSand} fontSize={16}>
-          Total Balance of all cards {currency}
+          Total Balance of all cards in {currency}
         </Box>
       </Box>
       <Box
