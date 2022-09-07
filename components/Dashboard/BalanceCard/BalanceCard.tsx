@@ -1,8 +1,9 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Divider, Select, Table } from "antd";
+import { Select, Table } from "antd";
 import { useState } from "react";
 import { Colors } from "../../../helpers/enums/colors";
 import { formatedAmount } from "../../../helpers/formatedAmount";
+import { useFetchIncome } from "../../../hooks";
 import { UserCards } from "../../../models/userModel";
 import { Box } from "../../Box/Box";
 import { Button } from "../../Buttons/Button";
@@ -43,7 +44,6 @@ const columns = [
     dataIndex: "amount",
     key: "amount",
     render(_: any, { amount, currency }: { amount: string; currency: string }) {
-      console.log(amount);
       return (
         <Box>
           {amount} {currency}
@@ -53,8 +53,12 @@ const columns = [
   },
   {
     title: "Card Number",
-    dataIndex: "cardNumber",
-    key: "cardNumber",
+    dataIndex: "mainCardNumber",
+    key: "mainCardNumber",
+    render(_: any, { cardNumber }: { cardNumber: string }) {
+      console.log(cardNumber);
+      return <Box>{cardNumber?.replace(/.(?=.{4})/g, "*")}</Box>;
+    },
   },
 ];
 
@@ -63,6 +67,7 @@ interface IBalance {
 }
 
 export function BalanceCard({ cards }: IBalance) {
+  const { data } = useFetchIncome();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currency, setCurrency] = useState("USD");
 
@@ -184,9 +189,9 @@ export function BalanceCard({ cards }: IBalance) {
               ]}
             >
               <Table
-                dataSource={income}
+                dataSource={data}
                 columns={columns}
-                rowKey="id"
+                rowKey="_id"
                 pagination={false}
               />
             </CustomModal>

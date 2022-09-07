@@ -21,6 +21,7 @@ export interface UserPayments {
   amount: string;
   date: string;
   created?: string;
+  mainCardId: string;
 }
 
 export interface IUser {

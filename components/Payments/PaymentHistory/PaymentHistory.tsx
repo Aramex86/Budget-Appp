@@ -1,20 +1,6 @@
-import {
-  Col,
-  DatePicker,
-  Radio,
-  RadioChangeEvent,
-  Row,
-  Space,
-  Table,
-} from "antd";
+import { DatePicker, Radio, RadioChangeEvent, Space, Table } from "antd";
 import { Colors } from "../../../helpers/enums/colors";
 import { Box, RadioBtn, TabsHeading } from "../..";
-import {
-  DollarOutlined,
-  HomeOutlined,
-  ShoppingCartOutlined,
-} from "@ant-design/icons";
-import { MedicineIcon, PartyIcon } from "../../Icons";
 import { UserCards, UserPayments } from "../../../models/userModel";
 import { useEffect, useState } from "react";
 import { usePostPeriod } from "../../../hooks";
