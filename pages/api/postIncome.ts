@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   const { db } = await connectToDatabase();
-  const { cardId, amount, date } = req.body;
+  const { cardId, amount, date, cardNumber } = req.body;
 
   await db
     .collection("users")
@@ -42,6 +42,7 @@ export default async function handler(
               date: date,
               mainCardAmount: `${mainCard.amount}`,
               mainCardId: mainCard._id,
+              cardNumber: cardNumber,
               created: new ObjectId().getTimestamp(),
             },
           },

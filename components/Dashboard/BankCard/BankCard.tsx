@@ -3,7 +3,7 @@ import { Colors } from "../../../helpers/enums/colors";
 import Image from "next/image";
 import { AntInput, Box, Button, CustomModal, RadioBtn } from "../..";
 import { UserCards } from "../../../models/userModel";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import {
   Col,
   DatePicker,
@@ -18,6 +18,7 @@ import moment from "moment";
 import { usePostCard } from "../../../hooks";
 import { antIcon } from "../../Icons";
 import { formatedAmount } from "../../../helpers/formatedAmount";
+import { cc_format } from "../../../helpers/formatCardNumber";
 
 interface IBankCard {
   cards: UserCards[];
@@ -29,7 +30,7 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [bg, setBg] = useState("#484ef4");
   const [date, setDate] = useState<string>("");
-  const [cardNr, setCardNumber] = useState("");
+  const [cardNumber, setCardNumber] = useState<string>("");
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -39,8 +40,10 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
   const handleOk = () => {
     setIsModalVisible(false);
     const cardObj = form.getFieldsValue(true);
-    const card = { ...cardObj, date };
+    const card = { ...cardObj, date, cardNumber: cardNumber };
     mutate(card);
+    form.resetFields();
+    setCardNumber("");
   };
 
   const handleCancel = () => {
@@ -52,9 +55,7 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
   };
 
   const handleCardNumber = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-
-    setCardNumber(value);
+    setCardNumber(e.currentTarget?.value);
   };
 
   if (isFetching)
@@ -127,6 +128,7 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
                 <AntInput
                   placeholder="ex:1000.00"
                   borderColor={Colors.VistaBlue}
+                  type="number"
                 />
               </Form.Item>
             </Col>
@@ -177,15 +179,15 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
               <Row>
                 <Col span={12}>
                   Card number
-                  <Form.Item name="cardNumber">
-                    <AntInput
-                      type="text"
-                      maxLength={16}
-                      bordered={false}
-                      placeholder="1234 1234 1234 1234"
-                      // onChange={handleCardNumber}
-                    />
-                  </Form.Item>
+                  <AntInput
+                    type="text"
+                    name="cardNumber"
+                    maxLength={19}
+                    bordered={false}
+                    placeholder="1234 1234 1234 1234"
+                    onChange={handleCardNumber}
+                    value={cc_format(cardNumber)}
+                  />
                 </Col>
               </Row>
             </Box>

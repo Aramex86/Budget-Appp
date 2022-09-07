@@ -33,7 +33,13 @@ export default function Payments() {
   const [disableCategory, setDisableCategory] = useState<boolean>(false);
   const [showCards, setShowCards] = useState<boolean>(false);
 
-  const [cardId, setCardId] = useState<string>("");
+  const [cardIdAndNumber, setCardIdAndNumber] = useState<{
+    cardId: string;
+    cardNumber: string;
+  }>({
+    cardId: "",
+    cardNumber: "",
+  });
   const [typeOfAmount, setTypeOfAmount] = useState<string>("");
   const [momentDate, setMomentDate] = useState<string>(
     moment().format("DD/MM/YYYY HH:mm A")
@@ -44,6 +50,8 @@ export default function Payments() {
   const { getFieldsValue, resetFields, validateFields, setFieldValue } = form;
 
   const { mainCard, categories, payments, cards } = user || {};
+
+  const { cardId, cardNumber } = cardIdAndNumber;
 
   const categoryOptions = categories?.map((category) => {
     return { label: category.category, value: category.category };
@@ -77,6 +85,7 @@ export default function Payments() {
           cardId: cardId,
           amount: amount,
           mainCardAmount: mainCard.amount,
+          cardNumber: cardNumber,
           date: momentDate,
         };
         typeOfAmount === "-"
@@ -276,7 +285,7 @@ export default function Payments() {
           </Box>
         </Box>
         {showCards && (
-          <Box display="flex" gap={10} marginBottom={15}>
+          <Box display="flex" gap={10} marginBottom={15} flexWrap="wrap">
             {cards.map(
               ({
                 _id,
@@ -293,7 +302,9 @@ export default function Payments() {
                   color={Colors.White}
                   padding="10px 10px"
                   borderRadius={5}
-                  onClick={() => setCardId(_id)}
+                  onClick={() =>
+                    setCardIdAndNumber({ cardId: _id, cardNumber })
+                  }
                   cursor="pointer"
                   boxShadow={
                     _id === cardId ? `rgb(63 74 73 / 75%) 0px 2px 8px 2px` : ""
