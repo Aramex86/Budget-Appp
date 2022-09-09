@@ -20,18 +20,23 @@ export function PaymentHistory({
 }: IPayments) {
   const [showMonth, setShowMonth] = useState(false);
   const { data, mutate } = usePostPeriod();
+  const [typeOfPeriod, setTipeOfPeriod] = useState<string>("all");
   const onChange = (e: RadioChangeEvent) => {
-    mutate({ period: e.target.value });
+    setTipeOfPeriod(e.target.value);
     e.target.value === "monthly" ? setShowMonth(true) : setShowMonth(false);
   };
 
   const handleMonth = (value: any) => {
-    mutate({ month: moment(value).format("M") });
+    mutate({ period: "monthly", month: moment(value).format("M") });
   };
 
   useEffect(() => {
     refetch();
   }, [data]);
+
+  useEffect(() => {
+    mutate({ period: typeOfPeriod });
+  }, [typeOfPeriod]);
 
   const colunms = [
     {

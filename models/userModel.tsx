@@ -20,8 +20,10 @@ export interface UserPayments {
   category: string;
   amount: string;
   date: string;
+  currency?: string;
   created?: string;
   mainCardId: string;
+  cardNumber?: string;
 }
 
 export interface IUser {

@@ -4,34 +4,10 @@ import { useState } from "react";
 import { Colors } from "../../../helpers/enums/colors";
 import { formatedAmount } from "../../../helpers/formatedAmount";
 import { useFetchIncome } from "../../../hooks";
-import { UserCards } from "../../../models/userModel";
+import { UserCards, UserPayments } from "../../../models/userModel";
 import { Box } from "../../Box/Box";
 import { Button } from "../../Buttons/Button";
 import { CustomModal } from "../../Modal/Modal";
-
-const income = [
-  {
-    id: 1,
-    date: "01/8/2022",
-    amount: "300",
-    currency: "USD",
-    cardNumber: "**** **** **** 1234",
-  },
-  {
-    id: 2,
-    date: "03/8/2022",
-    amount: "250",
-    currency: "EUR",
-    cardNumber: "**** **** **** 1235",
-  },
-  {
-    id: 3,
-    date: "29/7/2022",
-    amount: "1000",
-    currency: "LEI",
-    cardNumber: "**** **** **** 1236",
-  },
-];
 
 const columns = [
   {
@@ -43,7 +19,7 @@ const columns = [
     title: "Income",
     dataIndex: "amount",
     key: "amount",
-    render(_: any, { amount, currency }: { amount: string; currency: string }) {
+    render(_: any, { amount, currency }: UserPayments) {
       return (
         <Box>
           {amount} {currency}
@@ -53,10 +29,9 @@ const columns = [
   },
   {
     title: "Card Number",
-    dataIndex: "mainCardNumber",
-    key: "mainCardNumber",
-    render(_: any, { cardNumber }: { cardNumber: string }) {
-      console.log(cardNumber);
+    dataIndex: "cardNumber",
+    key: "cardNumber",
+    render(_: any, { cardNumber }: UserPayments) {
       return <Box>{cardNumber?.replace(/.(?=.{4})/g, "*")}</Box>;
     },
   },
