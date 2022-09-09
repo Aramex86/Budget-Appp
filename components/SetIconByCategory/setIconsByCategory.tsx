@@ -11,9 +11,15 @@ interface IconByCat {
   category: string;
   size?: string | number;
   text?: boolean;
+  switchBackground?: boolean;
 }
 
-export const SetIconByCategory = ({ category, size, text }: IconByCat) => {
+export const SetIconByCategory = ({
+  category,
+  size,
+  text,
+  switchBackground,
+}: IconByCat) => {
   switch (category) {
     case "Apartament":
       return (
@@ -25,8 +31,8 @@ export const SetIconByCategory = ({ category, size, text }: IconByCat) => {
             alignItems="center"
             justifyContent="center"
             borderRadius={50}
-            background="rgb(39 199 182 / 19%)"
-            boxShadow="0px 0px 3px 2px #74d2a88c"
+            background={switchBackground ? "rgb(39 199 182 / 19%)" : ""}
+            boxShadow={switchBackground ? "0px 0px 3px 2px #74d2a88c" : ""}
             marginRight={15}
           >
             <HomeOutlined
@@ -48,8 +54,8 @@ export const SetIconByCategory = ({ category, size, text }: IconByCat) => {
             alignItems="center"
             justifyContent="center"
             borderRadius={50}
-            background="rgb(39 199 182 / 19%)"
-            boxShadow="0px 0px 3px 2px #74d2a88c"
+            background={switchBackground ? "rgb(39 199 182 / 19%)" : ""}
+            boxShadow={switchBackground ? "0px 0px 3px 2px #74d2a88c" : ""}
             marginRight={15}
           >
             <ShoppingCartOutlined
@@ -72,8 +78,8 @@ export const SetIconByCategory = ({ category, size, text }: IconByCat) => {
             alignItems="center"
             justifyContent="center"
             borderRadius={50}
-            background="rgb(39 199 182 / 19%)"
-            boxShadow="0px 0px 3px 2px #74d2a88c"
+            background={switchBackground ? "rgb(39 199 182 / 19%)" : ""}
+            boxShadow={switchBackground ? "0px 0px 3px 2px #74d2a88c" : ""}
             marginRight={15}
           >
             <PartyIcon style={{ fontSize: "24px", fill: "rgb(60 153 67)" }} />
@@ -93,8 +99,8 @@ export const SetIconByCategory = ({ category, size, text }: IconByCat) => {
             alignItems="center"
             justifyContent="center"
             borderRadius={50}
-            background="rgb(39 199 182 / 19%)"
-            boxShadow="0px 0px 3px 2px #74d2a88c"
+            background={switchBackground ? "rgb(39 199 182 / 19%)" : ""}
+            boxShadow={switchBackground ? "0px 0px 3px 2px #74d2a88c" : ""}
             marginRight={15}
           >
             <MedicineIcon
@@ -116,8 +122,8 @@ export const SetIconByCategory = ({ category, size, text }: IconByCat) => {
             alignItems="center"
             justifyContent="center"
             borderRadius={50}
-            background="rgb(39 199 182 / 19%)"
-            boxShadow="0px 0px 3px 2px #74d2a88c"
+            background={switchBackground ? "rgb(39 199 182 / 19%)" : ""}
+            boxShadow={switchBackground ? "0px 0px 3px 2px #74d2a88c" : ""}
             marginRight={15}
           >
             <DollarOutlined

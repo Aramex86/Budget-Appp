@@ -1,4 +1,3 @@
-import { UserCards } from "./../../models/userModel";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { connectToDatabase } from "../../lib/mongoDb";
@@ -15,7 +14,7 @@ export default async function handler(
   await db
     .collection("users")
     .find({ _id: new ObjectId("62dc4a8105f94163a295537c") })
-    .forEach(({ payments, cards }) => {
+    .forEach(({ payments }) => {
       payments.map((pay: UserPayments) => {
         return pay.category === "Income" ? incomes.push(pay) : payments;
       });

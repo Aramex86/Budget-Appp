@@ -1,3 +1,4 @@
+import { UserPayments } from "./../../models/userModel";
 import { stringToNumber } from "./../../helpers/stringToNumber";
 import { ObjectId } from "mongodb";
 import { NextApiResponse } from "next";
@@ -11,10 +12,10 @@ export default async function handler(
 ) {
   const { db } = await connectToDatabase();
 
-  const { period, month } = req.body;
+  const { period, month } = await req.body;
 
-  const dayly: any = [];
-  const monthly: any = [];
+  const dayly: UserPayments[] = [];
+  const monthly: UserPayments[] = [];
 
   if (period === "day") {
     await db
@@ -23,7 +24,7 @@ export default async function handler(
       .forEach((user) => {
         const { payments } = user;
         const today = moment().format("DD");
-        payments?.map((day: any) => {
+        payments?.map((day: UserPayments) => {
           return day.date.substring(2, -1) === `${today}` && dayly.push(day);
         });
       })
@@ -43,11 +44,11 @@ export default async function handler(
       .find({ _id: new ObjectId("62dc4a8105f94163a295537c") })
       .forEach((user) => {
         const { categories, payments } = user;
-        payments?.map((day: any) => {
+        payments?.map((day: UserPayments) => {
           if (day.date.substring(4, 5) === month) {
             return monthly.push(day);
           }
-          const filterByMonth = payments.filter((pay: any) => {
+          const filterByMonth = payments.filter((pay: UserPayments) => {
             if (month) return pay.date.substring(4, 5) === month;
           });
 
@@ -61,7 +62,7 @@ export default async function handler(
             {}
           );
 
-          const newCat = categories.map((el: any) => {
+          const newCat = categories.map((el: UserPayments) => {
             const filterByCategory = groupByCategory[el.category];
             const getSumsOfCategories = filterByCategory?.reduce(
               (total: any, price: any) => {
@@ -93,7 +94,8 @@ export default async function handler(
   }
 
   if (period === "all") {
-    db.collection("users")
+    await db
+      .collection("users")
       .find({ _id: new ObjectId("62dc4a8105f94163a295537c") })
       .forEach((user) => {
         const { categories, payments } = user;

@@ -15,7 +15,12 @@ import {
 } from "../../components";
 import { Colors } from "../../helpers/enums/colors";
 import { formatedAmount } from "../../helpers/formatedAmount";
-import { useGetCards, usePostIncome, usePostTransaction } from "../../hooks";
+import {
+  useFetchIncome,
+  useGetCards,
+  usePostIncome,
+  usePostTransaction,
+} from "../../hooks";
 import { IUser, UserCards } from "../../models/userModel";
 
 export default function Payments() {
@@ -133,7 +138,11 @@ export default function Payments() {
             <MainCard mainCard={mainCard} isFetching={isFetching} />
           </Col>
           <Col xxl={12} xl={10}>
-            <Categories categories={categories} isFetching={isFetching} />
+            <Categories
+              categories={categories}
+              isFetching={isFetching}
+              payments={payments}
+            />
           </Col>
           <Col xxl={4} flex={1}>
             <Box paddingTop={29}>
