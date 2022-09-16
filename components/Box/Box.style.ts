@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export interface BoxType {
-  style?: Record<string, string | number | any>;
+  // style?: Record<string, string | number | any>;
+  style?: React.CSSProperties;
   paddingTop?: string | number;
   paddingBottom?: string | number;
   paddingRight?: string | number;
@@ -22,7 +23,8 @@ export interface BoxType {
     | "space-evenly"
     | "flex-start"
     | "flex-end";
-  textAlign?: "initial" | "center" | "left" | "right" | "top" | "bottom";
+
+  // textAlign?: "start" | "center" | "left" | "right" | "top" | "bottom";
   alignItems?: "normal" | "center" | "start" | "end" | "baseline";
   flexDirection?: "row" | "column";
   border?: string;
@@ -45,7 +47,7 @@ export interface BoxType {
   bottom?: string | number;
   right?: string | number;
   left?: string | number;
-  cursor?: "pointer" | string;
+  cursor?: "pointer" | "no-drop" | string;
   borderRadius?: string | number;
   boxShadow?: string;
   overflowX?: "hidden" | "scroll" | "auto";
@@ -56,8 +58,10 @@ export interface BoxType {
   transform?: string;
   zIndex?: number;
   gap?: number | string;
+  filter?: any;
 }
 
-export const StyledBox = styled.div(({ style }: BoxType) => ({
+export const StyledBox = styled.div(({ filter, style }: BoxType) => ({
   ...style,
+  filter: filter,
 }));

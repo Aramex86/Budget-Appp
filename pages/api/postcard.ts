@@ -20,11 +20,25 @@ export default async function handler(
           cards: {
             _id: new ObjectId(),
             ...req.body,
+            close: false,
             created: new ObjectId().getTimestamp(),
           },
         },
       }
     );
+
+    db.collection("users")
+      .find({})
+      .forEach((user) => {
+        const { cards } = user;
+
+        if (cards.length > 0) {
+          db.collection("users").updateOne(
+            {},
+            { $set: { mainCard: cards[0] } }
+          );
+        }
+      });
 
     res.status(200).json({ body: req.body, message: "Succes" });
   } catch (e) {

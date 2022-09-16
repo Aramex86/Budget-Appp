@@ -83,9 +83,9 @@ export function PaymentHistory({
       render: () => (
         <Box color={Colors.Black} display="flex">
           <Box fontWeight={600} marginRight={25}>
-            {mainCard.paysystem.toUpperCase()}
+            {mainCard.paysystem?.toUpperCase()}
           </Box>
-          <Box> {mainCard.cardNumber.replace(/.(?=.{4})/g, "*")}</Box>
+          <Box> {mainCard.cardNumber?.replace(/.(?=.{4})/g, "*")}</Box>
         </Box>
       ),
     },

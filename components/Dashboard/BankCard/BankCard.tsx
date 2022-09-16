@@ -205,14 +205,23 @@ export default function BankCard({ cards, isFetching }: IBankCard) {
         </CustomModal>
         <Box display="flex">
           {cards?.map(
-            ({ _id, date, paysystem, amount, cardBg, currency }: UserCards) => (
+            ({
+              _id,
+              date,
+              paysystem,
+              amount,
+              cardBg,
+              currency,
+              close,
+            }: UserCards) => (
               <Box
                 key={_id}
-                background={cardBg}
+                background={close ? Colors.AmethystSmoke : cardBg}
                 width={230}
                 padding={20}
                 marginRight={20}
                 borderRadius="10px"
+                cursor={close ? "no-drop" : "unset"}
               >
                 <Box
                   display="flex"

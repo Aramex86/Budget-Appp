@@ -1,111 +1,176 @@
-import { Divider, Radio, RadioChangeEvent, Space, Table } from "antd";
+import {
+  Divider,
+  Popconfirm,
+  Radio,
+  RadioChangeEvent,
+  Space,
+  Table,
+} from "antd";
 import { Colors } from "../../../helpers/enums/colors";
 import { RadioBtn } from "../../RadioBtn/RadioBtn";
 import Image from "next/image";
 import { TabsHeading } from "../../TabsHeading/TabsHeading";
 import { Box } from "../../Box/Box";
+import { UserCards } from "../../../models/userModel";
+import { usePostMainCard } from "../../../hooks/usePostMainCard";
+import { Button } from "../../Buttons/Button";
+import { fetchData, useDeleteCard, usePostCloseCard } from "../../../hooks";
+import { DeleteOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-const cards = [
-  {
-    id: 1,
-    date: "12/24",
-    paySystem: "mastercard",
-    amount: "3,920",
-    backgound: "#4D53E0",
-    cardHolder: "Jhon Doe",
-  },
-  {
-    id: 2,
-    date: "09/24",
-    paySystem: "visa",
-    amount: "2,500",
-    backgound: "#FF8C00",
-    cardHolder: "Jhon Doe",
-  },
-  {
-    id: 3,
-    date: "08/24",
-    paySystem: "mastercard",
-    amount: "1,500",
-    backgound: "#202041",
-    cardHolder: "Jhon Doe",
-  },
-  {
-    id: 4,
-    date: "25/23",
-    paySystem: "visa",
-    amount: "1000",
-    backgound: "#202041",
-    cardHolder: "Jhon Doe",
-  },
-];
+interface ICards {
+  cards: UserCards[];
+}
 
-const columns = [
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-    render: (text: string) => <Box fontWeight={600}>{text}</Box>,
-  },
-  {
-    title: "Pay System",
-    dataIndex: "paySystem",
-    key: "paySystem",
-    render: (paySystem: string) => {
-      const sytem = () => {
-        switch (paySystem) {
-          case "visa":
-            return (
-              <Box display="flex" alignItems="center">
-                <Image
-                  src={"/images/294654_visa_icon.svg"}
-                  width={45}
-                  height={45}
-                  alt="Pay System"
-                />
-                <Box marginLeft={25} fontWeight={600}>
-                  {paySystem.toLocaleUpperCase()}
-                </Box>
-              </Box>
-            );
-          case "mastercard":
-            return (
-              <Box display="flex" alignItems="center">
-                <Image
-                  src={"/images/mc_symbol_opt_73_2x.png"}
-                  width={45}
-                  height={35}
-                  alt="Pay System"
-                />
-                <Box marginLeft={25} fontWeight={600}>
-                  {paySystem.toLocaleUpperCase()}
-                </Box>
-              </Box>
-            );
-        }
-      };
-
-      return <>{sytem()}</>;
-    },
-  },
-  {
-    title: "Amount",
-    dataIndex: "amount",
-    key: "amount",
-    render: (amount: string) => <Box fontWeight={600}>{amount}</Box>,
-  },
-  {
-    title: "Card Holder",
-    dataIndex: "cardHolder",
-    key: "cardHolder",
-    render: (holderName: string) => <Box fontWeight={600}>{holderName}</Box>,
-  },
-];
-
-export function CradOptions() {
+export function CradOptions({ cards }: ICards) {
+  const { mutate } = usePostMainCard();
+  const { mutate: closeCardMutate } = usePostCloseCard();
+  const { mutate: deleteCardMutate } = useDeleteCard();
   const onChange = (e: RadioChangeEvent) => {
     console.log(`radio checked:${e.target.value}`);
   };
+
+  const columns = [
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: (text: string) => <Box fontWeight={600}>{text}</Box>,
+    },
+    {
+      title: "Pay System",
+      dataIndex: "paysystem",
+      key: "paysystem",
+      render: (paySystem: string) => {
+        const sytem = () => {
+          switch (paySystem) {
+            case "visa":
+              return (
+                <Box display="flex" alignItems="center">
+                  <Image
+                    src={"/images/294654_visa_icon.svg"}
+                    width={45}
+                    height={45}
+                    alt="Pay System"
+                  />
+                  <Box marginLeft={25} fontWeight={600}>
+                    {paySystem.toLocaleUpperCase()}
+                  </Box>
+                </Box>
+              );
+            case "mastercard":
+              return (
+                <Box display="flex" alignItems="center">
+                  <Image
+                    src={"/images/mc_symbol_opt_73_2x.png"}
+                    width={45}
+                    height={35}
+                    alt="Pay System"
+                  />
+                  <Box marginLeft={25} fontWeight={600}>
+                    {paySystem.toLocaleUpperCase()}
+                  </Box>
+                </Box>
+              );
+          }
+        };
+
+        return <>{sytem()}</>;
+      },
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+      render: (amount: string) => <Box fontWeight={600}>{amount}</Box>,
+    },
+    {
+      title: "Card Holder",
+      dataIndex: "cardholder",
+      key: "cardholder",
+      render: (holderName: string) => <Box fontWeight={600}>{holderName}</Box>,
+    },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      key: "actions",
+      align: "center" as const,
+      width: "20%",
+      render: (_: any, record: UserCards) => {
+        const { _id, close } = record;
+
+        const defaultCard = {
+          ...record,
+          date: "",
+          cardholder: "",
+          cardNumber: "",
+          amount: "0",
+        };
+
+        const handleSetCard = () => {
+          mutate(record);
+        };
+
+        const handaleCloseCard = () => {
+          closeCardMutate({ cardId: _id });
+        };
+        const handaleDeleteCard = () => {
+          deleteCardMutate({ cardId: _id, defaultCard });
+        };
+        return (
+          <Box
+            display="flex"
+            gap={10}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Button
+              fontWeight={700}
+              onClick={handleSetCard}
+              color={Colors.White}
+              border={`1px solid ${Colors.VistaBlue}`}
+              hovercolor="red"
+              disabled={close}
+              backgroundColor={Colors.VistaBlue}
+            >
+              Set as main
+            </Button>
+            <Button
+              fontWeight={700}
+              color={Colors.White}
+              border={`1px solid ${Colors.VistaBlue}`}
+              backgroundColor={Colors.VistaBlue}
+            >
+              <Popconfirm
+                title="Are you sure to close this card?"
+                onConfirm={handaleCloseCard}
+                okText="Yes"
+                cancelText="No"
+              >
+                Close card
+              </Popconfirm>
+            </Button>
+            <Button
+              fontWeight={700}
+              color={Colors.CoralPink}
+              border={`1px solid ${Colors.CoralPink}`}
+              backgroundColor={Colors.White}
+            >
+              <Popconfirm
+                title="Are you sure to delete this card?"
+                onConfirm={handaleDeleteCard}
+                okText="Yes"
+                cancelText="No"
+              >
+                <DeleteOutlined />
+              </Popconfirm>
+            </Button>
+          </Box>
+        );
+      },
+    },
+  ];
 
   return (
     <Box background={Colors.White}>
@@ -120,8 +185,8 @@ export function CradOptions() {
         <Box display="flex">
           <Radio.Group
             onChange={onChange}
-            defaultValue="one"
-            buttonStyle="solid"
+            defaultValue="all"
+            buttonStyle="outline"
           >
             <Space>
               <RadioBtn value="one">One</RadioBtn>
@@ -136,7 +201,7 @@ export function CradOptions() {
             columns={columns}
             dataSource={cards}
             pagination={false}
-            rowKey="id"
+            rowKey="_id"
           />
         </Box>
       </Box>

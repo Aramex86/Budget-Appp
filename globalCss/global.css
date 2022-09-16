@@ -113,3 +113,18 @@
 .ant-picker-today-btn {
   color: #74d2a8 !important;
 }
+
+/* Popconfirm */
+
+.ant-popover-buttons > .ant-btn.ant-btn-primary.ant-btn-sm {
+  color: #fff;
+  border-color: #74d2a8 !important;
+  background: #74d2a8 !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.ant-popover-buttons > .ant-btn.ant-btn-default.ant-btn-sm:hover {
+  color: #74d2a8 !important;
+  border-color: #74d2a8 !important;
+}

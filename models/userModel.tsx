@@ -5,8 +5,9 @@ export interface UserCards {
   currency: string;
   _id: string;
   date: string;
-  cardHolder: string;
+  cardholder: string;
   cardBg: string;
+  close: boolean;
 }
 
 export interface UserCategories {

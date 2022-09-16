@@ -35,30 +35,16 @@ export interface IButtonType extends ButtonProps {
   fontSize?: number | string;
 }
 
-// const ButtonIcon = styled(Button)(
-//   ({ color, active, background, fontWeight }: IButtonType) => `
-//   &.ant-btn:focus{
-//     color:${active ? `${color}` : ` ${Colors.SilverSand}`} !important;
-//   }
-//   .ant-btn-icon-only > span {
-//     color: ${color};
-//   }
-//   .ant-btn{
-//     color:${active ? "#000" : ` ${Colors.SilverSand}`} !important;
-//     font-weight:${active ? 400 : 0} !important;
-//     background:${background};
-//   }
-
-//   &.ant-btn:hover,&.ant-btn:focus{
-//     color:${Colors.White} ;
-//     background:${background};
-//   }
-
-//   `
-// );
-
 const StyledButton = styled(Button)(({ style }: IButtonType) => ({
   ...style,
+  "&.ant-btn[disabled], &.ant-btn[disabled]:hover, &.ant-btn[disabled]:focus, &.ant-btn[disabled]:active":
+    {
+      color: "rgba(0, 0, 0, 0.25) !important",
+      borderColor: " #d9d9d9 !important",
+      background: "#f5f5f5 !important",
+      textShadow: "none !important",
+      boxShadow: "none !important",
+    },
 }));
 
 const TransactionBtn = styled(StyledButton)(

@@ -4,18 +4,18 @@ import axios from "axios";
 import { notification } from "antd";
 import { fetchData } from "./useGetUser";
 
-const postCard = async (card: UserCards) => {
-  const { data } = await axios.post("/api/postcard", card);
+const deleteCard = async (payload: Record<string, string | UserCards>) => {
+  const { data } = await axios.post("/api/deleteCard", payload);
   return data;
 };
 
-export function usePostCard() {
+export function useDeleteCard() {
   const { refetch } = useQuery(["cards"], fetchData);
-  return useMutation(["newCard"], postCard, {
+  return useMutation([], deleteCard, {
     onSuccess: () => {
       refetch();
       notification.success({
-        message: "Card added with succes",
+        message: "Card deleted with succes",
         duration: 3,
       });
     },

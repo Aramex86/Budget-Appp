@@ -1,5 +1,13 @@
 import { TransactionOutlined } from "@ant-design/icons";
-import { Col, DatePicker, DatePickerProps, Form, Row, Select } from "antd";
+import {
+  Col,
+  DatePicker,
+  DatePickerProps,
+  Form,
+  notification,
+  Row,
+  Select,
+} from "antd";
 import { useForm } from "antd/lib/form/Form";
 import moment from "moment";
 import Head from "next/head";
@@ -15,12 +23,7 @@ import {
 } from "../../components";
 import { Colors } from "../../helpers/enums/colors";
 import { formatedAmount } from "../../helpers/formatedAmount";
-import {
-  useFetchIncome,
-  useGetCards,
-  usePostIncome,
-  usePostTransaction,
-} from "../../hooks";
+import { useGetUser, usePostIncome, usePostTransaction } from "../../hooks";
 import { IUser, UserCards } from "../../models/userModel";
 
 export default function Payments() {
@@ -30,7 +33,7 @@ export default function Payments() {
     error,
     isFetching,
     refetch,
-  } = useGetCards({ enabled: true });
+  } = useGetUser({ enabled: true });
   const { mutate } = usePostTransaction();
   const { data: incomeData, mutate: incomeMutate } = usePostIncome();
 
@@ -69,11 +72,35 @@ export default function Payments() {
   useEffect(() => {
     refetch();
   }, [incomeData]);
+  const handleCloseCard = () => {
+    return mainCard.close
+      ? notification.info({
+          message: "This card is closed please select other card",
+          duration: 4,
+        })
+      : false;
+  };
 
   const handleShowModal = () => {
     setShowModal(true);
+    handleCloseCard();
   };
+
+  const handleCloseNotification = () => {
+    notification.info({
+      message: "The Card is closed",
+      duration: 3,
+    });
+  };
+
   const handleOk = async () => {
+    if ((Number(mainCard.amount) <= 0 && typeOfAmount === "-") || !cards.length)
+      return notification.info({
+        message: `You don't have ehouth founds. 
+         Pick other card or refill the card.`,
+        duration: 4,
+      });
+
     try {
       const values = await validateFields();
       if (values) {
@@ -88,6 +115,7 @@ export default function Payments() {
         };
         const incomeTransaction = {
           cardId: cardId,
+          category,
           amount: amount,
           mainCardAmount: mainCard.amount,
           cardNumber: cardNumber,
@@ -96,6 +124,7 @@ export default function Payments() {
         typeOfAmount === "-"
           ? mutate(newTransaction)
           : incomeMutate(incomeTransaction);
+
         resetFields();
         setTypeOfAmount("");
         setDisableCategory(false);
@@ -214,6 +243,7 @@ export default function Payments() {
             backgroundColor={Colors.VistaBlue}
             color={Colors.White}
             border={`1px solid ${Colors.VistaBlue}`}
+            disabled={mainCard?.close}
           >
             Add new transaction
           </Button>,
@@ -303,16 +333,19 @@ export default function Payments() {
                 paysystem,
                 currency,
                 cardNumber,
+                close,
               }: UserCards) => (
                 <Box
                   key={_id}
-                  background={cardBg}
+                  background={close ? Colors.AmethystSmoke : cardBg}
                   width="30%"
                   color={Colors.White}
                   padding="10px 10px"
                   borderRadius={5}
                   onClick={() =>
-                    setCardIdAndNumber({ cardId: _id, cardNumber })
+                    close
+                      ? handleCloseNotification()
+                      : setCardIdAndNumber({ cardId: _id, cardNumber })
                   }
                   cursor="pointer"
                   boxShadow={
