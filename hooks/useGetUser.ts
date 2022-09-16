@@ -1,4 +1,4 @@
-import { IUser } from "./../models/userModel";
+import { IUser } from "../models/userModel";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -8,10 +8,10 @@ const fetchData = async () => {
   return data;
 };
 
-function useGetCards({ enabled }: { enabled: boolean }) {
+function useGetUser({ enabled }: { enabled: boolean }) {
   return useQuery(["cards"], fetchData, {
     enabled: enabled,
   });
 }
 
-export { fetchData, useGetCards };
+export { fetchData, useGetUser };

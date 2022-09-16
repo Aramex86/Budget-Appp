@@ -12,7 +12,7 @@ export default async function handler(
 ) {
   const { db } = await connectToDatabase();
 
-  const { period, month } = await req.body;
+  const { period, month } = req.body;
 
   const dayly: UserPayments[] = [];
   const monthly: UserPayments[] = [];

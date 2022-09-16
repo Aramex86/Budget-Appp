@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useEffect } from "react";
 import {
   AntTabs,
   Box,
@@ -11,8 +12,21 @@ import {
 import { StyledTabPane } from "../../components/AntTabs/AntTabs.style";
 
 import { Colors } from "../../helpers/enums/colors";
+import { useGetUser } from "../../hooks";
+import { IUser } from "../../models/userModel";
 
 export default function settings() {
+  const {
+    status,
+    data = [],
+    error,
+    isFetching,
+    refetch,
+  } = useGetUser({ enabled: true });
+
+  const [user] = data as IUser[];
+  const { cards } = user || {};
+
   return (
     <>
       <Head>
@@ -27,7 +41,7 @@ export default function settings() {
             <ChangePassword />
           </StyledTabPane>
           <StyledTabPane tab="Card Options" key="3">
-            <CradOptions />
+            <CradOptions cards={cards} />
           </StyledTabPane>
           <StyledTabPane tab="Notification Settings" key="4">
             <NotificationSettings />

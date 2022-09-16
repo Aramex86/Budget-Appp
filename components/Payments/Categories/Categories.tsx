@@ -121,7 +121,7 @@ export function Categories({ categories, isFetching, payments }: ICategories) {
                           flexDirection="column"
                           alignItems="center"
                         >
-                          <Box>Icome</Box>
+                          <Box>Total Icome</Box>
                           <Box>
                             {income} {currency}
                           </Box>

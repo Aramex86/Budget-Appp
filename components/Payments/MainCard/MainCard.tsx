@@ -50,11 +50,11 @@ export function MainCard({ mainCard, isFetching }: IMainCard) {
       <Box
         fontWeight={600}
         fontSize={18}
-        textAlign="center"
+        // textAlign="center"
         marginBottom={10}
         color={Colors.AmethystSmoke}
       >
-        {mainCard?.cardNumber.replace(/.(?=.{4})/g, "*")}
+        {mainCard?.cardNumber?.replace(/.(?=.{4})/g, "*")}
       </Box>
       <Box display="flex">
         <Box display="flex" justifyContent="center" alignItems="baseline">
@@ -64,7 +64,7 @@ export function MainCard({ mainCard, isFetching }: IMainCard) {
           </Box>
           <Box>
             <Box color={Colors.SilverSand}>Card Holder</Box>
-            <Box fontWeight={600}>{mainCard?.cardHolder}</Box>
+            <Box fontWeight={600}>{mainCard?.cardholder}</Box>
           </Box>
         </Box>
       </Box>
